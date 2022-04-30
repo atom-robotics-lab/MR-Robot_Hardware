@@ -14,6 +14,7 @@ min_pwm_val = 30            #   Minimum PWM value that is needed for the robot t
 wheel_radius = wheel_diameter/2
 circumference_of_wheel = 2 * pi * wheel_radius
 max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
+<<<<<<< HEAD
 
 GPIO.setup(29, GPIO.OUT)
 
@@ -30,6 +31,9 @@ lapwm.start(0)
 lbpwm.start(0)
 rapwm.start(0)
 rbpwm.start(0)
+=======
+#12.246
+>>>>>>> 7771b9b80faaa4e948a115c84cf9bcb7e367e353
 
 def stop():
     #print('stopping')
@@ -40,8 +44,8 @@ def stop():
 def refine(left_speed, right_speed):
     global max_pwm_val
     global min_pwm_val
-    lspeedPWM = max(min(((left_speed/max_speed)*max_pwm_val),max_pwm_val),min_pwm_val)
-    rspeedPWM = max(min(((right_speed/max_speed)*max_pwm_val),max_pwm_val),min_pwm_val)
+    lspeedPWM = (left_speed/max_speed)*max_pwm_val
+    rspeedPWM = (right_speed/max_speed)*max_pwm_val
 
     return lspeedPWM, rspeedPWM
     
@@ -52,14 +56,16 @@ def callback(data):
     linear_vel = data.linear.x                  # Linear Velocity of Robot
     angular_vel = data.angular.z                # Angular Velocity of Robot
     
-    right_vel = (2 * linear_vel + angular_vel * wheel_separation) / 2 * wheel_radius       # right wheel velocity
-    left_vel  = (2 * linear_vel - angular_vel * wheel_separation) / 2 * wheel_radius              # left wheel velocity
+    print('linear and angular: ', linear_vel, angular_vel)
+    right_vel = linear_vel + (angular_vel * wheel_separation) / 2       # right wheel velocity
+    left_vel  = linear_vel - (angular_vel * wheel_separation) / 2              # left wheel velocity
     
     if (left_vel == 0.0 and right_vel == 0.0):
         stop()
         print("stopping")
 
     elif (left_vel >= 0.0 and right_vel >= 0.0):
+<<<<<<< HEAD
         refine(abs(left_vel), abs(right_vel))
         lapwm.ChangeDutyCycle(refine()[0])
         lbpwm.ChangeDutyCycle(0)
@@ -89,6 +95,21 @@ def callback(data):
         lbpwm.ChangeDutyCycle(0)
         rapwm.ChangeDutyCycle(0)
         rbpwm.ChangeDutyCycle(refine()[1])
+=======
+        print(refine(abs(left_vel), abs(right_vel)))
+        print("moving forward")
+
+    elif (left_vel <= 0.0 and right_vel <= 0.0):
+        print(refine(abs(left_vel), abs(right_vel)))
+        print("moving backward")
+
+    elif (left_vel < 0.0 and right_vel > 0.0):
+        print(refine(abs(left_vel), abs(right_vel)))
+        print("turning left")
+
+    elif (left_vel > 0.0 and right_vel < 0.0):
+        print(refine(abs(left_vel), abs(right_vel)))
+>>>>>>> 7771b9b80faaa4e948a115c84cf9bcb7e367e353
         print("turning right")
         
     else:

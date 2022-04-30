@@ -15,6 +15,7 @@ wheel_radius = wheel_diameter/2
 circumference_of_wheel = 2 * pi * wheel_radius
 max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
 
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(29, GPIO.OUT)
 
 GPIO.setup(31, GPIO.OUT)

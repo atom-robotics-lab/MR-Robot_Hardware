@@ -14,7 +14,6 @@ min_pwm_val = 30            #   Minimum PWM value that is needed for the robot t
 wheel_radius = wheel_diameter/2
 circumference_of_wheel = 2 * pi * wheel_radius
 max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
-<<<<<<< HEAD
 
 GPIO.setup(29, GPIO.OUT)
 
@@ -31,9 +30,6 @@ lapwm.start(0)
 lbpwm.start(0)
 rapwm.start(0)
 rbpwm.start(0)
-=======
-#12.246
->>>>>>> 7771b9b80faaa4e948a115c84cf9bcb7e367e353
 
 def stop():
     #print('stopping')
@@ -65,7 +61,6 @@ def callback(data):
         print("stopping")
 
     elif (left_vel >= 0.0 and right_vel >= 0.0):
-<<<<<<< HEAD
         refine(abs(left_vel), abs(right_vel))
         lapwm.ChangeDutyCycle(refine()[0])
         lbpwm.ChangeDutyCycle(0)
@@ -95,21 +90,6 @@ def callback(data):
         lbpwm.ChangeDutyCycle(0)
         rapwm.ChangeDutyCycle(0)
         rbpwm.ChangeDutyCycle(refine()[1])
-=======
-        print(refine(abs(left_vel), abs(right_vel)))
-        print("moving forward")
-
-    elif (left_vel <= 0.0 and right_vel <= 0.0):
-        print(refine(abs(left_vel), abs(right_vel)))
-        print("moving backward")
-
-    elif (left_vel < 0.0 and right_vel > 0.0):
-        print(refine(abs(left_vel), abs(right_vel)))
-        print("turning left")
-
-    elif (left_vel > 0.0 and right_vel < 0.0):
-        print(refine(abs(left_vel), abs(right_vel)))
->>>>>>> 7771b9b80faaa4e948a115c84cf9bcb7e367e353
         print("turning right")
         
     else:

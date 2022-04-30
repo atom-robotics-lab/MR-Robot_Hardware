@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Twist
+import RPi.GPIO as GPIO
 import time
 from math import pi
 
@@ -14,6 +15,21 @@ wheel_radius = wheel_diameter/2
 circumference_of_wheel = 2 * pi * wheel_radius
 max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
 
+GPIO.setup(29, GPIO.OUT)
+
+GPIO.setup(31, GPIO.OUT)
+GPIO.setup(33, GPIO.OUT)
+GPIO.setup(35, GPIO.OUT)
+lapwm = GPIO.PWM(29, 1000)
+lbpwm = GPIO.PWM(31, 1000)
+rapwm = GPIO.PWM(33, 1000)
+rbpwm = GPIO.PWM(35, 1000)
+
+lapwm.start(0)
+
+lbpwm.start(0)
+rapwm.start(0)
+rbpwm.start(0)
 
 def stop():
     #print('stopping')
@@ -45,18 +61,34 @@ def callback(data):
 
     elif (left_vel >= 0.0 and right_vel >= 0.0):
         refine(abs(left_vel), abs(right_vel))
+        lapwm.ChangeDutyCycle(refine()[0])
+        lbpwm.ChangeDutyCycle(0)
+        rapwm.ChangeDutyCycle(0)
+        rbpwm.ChangeDutyCycle(0)
         print("moving forward")
 
     elif (left_vel <= 0.0 and right_vel <= 0.0):
         refine(abs(left_vel), abs(right_vel))
+        lapwm.ChangeDutyCycle(0)
+        lbpwm.ChangeDutyCycle(refine()[0])
+        rapwm.ChangeDutyCycle(0)
+        rbpwm.ChangeDutyCycle(0)
         print("moving backward")
 
     elif (left_vel < 0.0 and right_vel > 0.0):
         refine(abs(left_vel), abs(right_vel))
+        lapwm.ChangeDutyCycle(0)
+        lbpwm.ChangeDutyCycle(0)
+        rapwm.ChangeDutyCycle(refine()[1])
+        rbpwm.ChangeDutyCycle(0)
         print("turning left")
 
     elif (left_vel > 0.0 and right_vel < 0.0):
         refine(abs(left_vel), abs(right_vel))
+        lapwm.ChangeDutyCycle(0)
+        lbpwm.ChangeDutyCycle(0)
+        rapwm.ChangeDutyCycle(0)
+        rbpwm.ChangeDutyCycle(refine()[1])
         print("turning right")
         
     else:

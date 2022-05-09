@@ -18,14 +18,14 @@ max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
 GPIO.setmode(GPIO.BCM)
 GPIO.cleanup()
 
-GPIO.setup(12, GPIO.OUT)
-GPIO.setup(13, GPIO.OUT)
-GPIO.setup(18, GPIO.OUT)
-GPIO.setup(19, GPIO.OUT)
-lapwm = GPIO.PWM(12, 1000)
-lbpwm = GPIO.PWM(13, 1000)
-rapwm = GPIO.PWM(18, 1000)
-rbpwm = GPIO.PWM(19, 1000)
+GPIO.setup(5, GPIO.OUT)
+GPIO.setup(6, GPIO.OUT)
+GPIO.setup(16, GPIO.OUT)
+GPIO.setup(20, GPIO.OUT)
+lapwm = GPIO.PWM(5, 1000)
+lbpwm = GPIO.PWM(6, 1000)
+rapwm = GPIO.PWM(16, 1000)
+rbpwm = GPIO.PWM(20, 1000)
 
 lapwm.start(0)
 lbpwm.start(0)
@@ -41,8 +41,8 @@ def stop():
 def get_pwm(left_speed, right_speed):
     global max_pwm_val
     global min_pwm_val
-    lspeedPWM = (left_speed/max_speed)*max_pwm_val
-    rspeedPWM = (right_speed/max_speed)*max_pwm_val
+    lspeedPWM = min((left_speed/max_speed)*max_pwm_val, max_pwm_val)
+    rspeedPWM = min((right_speed/max_speed)*max_pwm_val, max_pwm_val)
 
     return abs(lspeedPWM), abs(rspeedPWM)
     

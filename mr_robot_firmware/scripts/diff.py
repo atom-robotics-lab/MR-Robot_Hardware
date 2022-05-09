@@ -16,15 +16,15 @@ circumference_of_wheel = 2 * pi * wheel_radius
 max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(29, GPIO.OUT)
 
-GPIO.setup(31, GPIO.OUT)
-GPIO.setup(33, GPIO.OUT)
-GPIO.setup(35, GPIO.OUT)
-lapwm = GPIO.PWM(29, 1000)
-lbpwm = GPIO.PWM(31, 1000)
-rapwm = GPIO.PWM(33, 1000)
-rbpwm = GPIO.PWM(35, 1000)
+GPIO.setup(12, GPIO.OUT)
+GPIO.setup(13, GPIO.OUT)
+GPIO.setup(18, GPIO.OUT)
+GPIO.setup(19, GPIO.OUT)
+lapwm = GPIO.PWM(12, 1000)
+lbpwm = GPIO.PWM(13, 1000)
+rapwm = GPIO.PWM(18, 1000)
+rbpwm = GPIO.PWM(19, 1000)
 
 lapwm.start(0)
 
@@ -38,59 +38,59 @@ def stop():
     rspeedPWM = 0
     return lspeedPWM, rspeedPWM
 
-def refine(left_speed, right_speed):
+def get_pwm(left_speed, right_speed):
     global max_pwm_val
     global min_pwm_val
     lspeedPWM = (left_speed/max_speed)*max_pwm_val
     rspeedPWM = (right_speed/max_speed)*max_pwm_val
 
-    return lspeedPWM, rspeedPWM
+    return abs(lspeedPWM), abs(rspeedPWM)
     
 def callback(data):
     global wheel_radius
     global wheel_separation
-    print("hi")
+   
     linear_vel = data.linear.x                  # Linear Velocity of Robot
     angular_vel = data.angular.z                # Angular Velocity of Robot
     
     print('linear and angular: ', linear_vel, angular_vel)
     right_vel = linear_vel + (angular_vel * wheel_separation) / 2       # right wheel velocity
     left_vel  = linear_vel - (angular_vel * wheel_separation) / 2              # left wheel velocity
+
+    l_pwm, r_pwm = get_pwm(left_vel, right_vel)
     
     if (left_vel == 0.0 and right_vel == 0.0):
         stop()
         print("stopping")
 
     elif (left_vel >= 0.0 and right_vel >= 0.0):
-        refine(abs(left_vel), abs(right_vel))
-        lapwm.ChangeDutyCycle(refine()[0])
+        lapwm.ChangeDutyCycle(l_pwm)
         lbpwm.ChangeDutyCycle(0)
-        rapwm.ChangeDutyCycle(0)
+        rapwm.ChangeDutyCycle(r_pwm)
         rbpwm.ChangeDutyCycle(0)
         print("moving forward")
 
     elif (left_vel <= 0.0 and right_vel <= 0.0):
-        refine(abs(left_vel), abs(right_vel))
+
         lapwm.ChangeDutyCycle(0)
-        lbpwm.ChangeDutyCycle(refine()[0])
+        lbpwm.ChangeDutyCycle(l_pwm)
         rapwm.ChangeDutyCycle(0)
-        rbpwm.ChangeDutyCycle(0)
+        rbpwm.ChangeDutyCycle(r_pwm)
         print("moving backward")
 
     elif (left_vel < 0.0 and right_vel > 0.0):
-        refine(abs(left_vel), abs(right_vel))
         lapwm.ChangeDutyCycle(0)
-        lbpwm.ChangeDutyCycle(0)
-        rapwm.ChangeDutyCycle(refine()[1])
+        lbpwm.ChangeDutyCycle(l_pwm)
+        rapwm.ChangeDutyCycle(r_pwm)
         rbpwm.ChangeDutyCycle(0)
         print("turning left")
 
     elif (left_vel > 0.0 and right_vel < 0.0):
         refine(abs(left_vel), abs(right_vel))
-        lapwm.ChangeDutyCycle(0)
+        lapwm.ChangeDutyCycle(l_pwm)
         lbpwm.ChangeDutyCycle(0)
         rapwm.ChangeDutyCycle(0)
-        rbpwm.ChangeDutyCycle(refine()[1])
+        rbpwm.ChangeDutyCycle(r_pwm)
         print("turning right")
         
     else:
@@ -102,7 +102,7 @@ def listener():
     rospy.spin()
 
 if __name__== '__main__':
-    print('Tortoisebot Differential Drive Initialized with following Params-')
+    print('MR_Robot Differential Drive Initialized with following Params-')
     print('Motor Max RPM:\t'+str(motor_rpm)+' RPM')
     print('Wheel Diameter:\t'+str(wheel_diameter)+' m')
     print('Wheel Separation:\t'+str(wheel_separation)+' m')

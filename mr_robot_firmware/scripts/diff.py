@@ -58,6 +58,8 @@ def callback(data):
     left_vel  = linear_vel - (angular_vel * wheel_separation) / 2              # left wheel velocity
 
     l_pwm, r_pwm = get_pwm(left_vel, right_vel)
+
+    print('left and right: ', l_pwm, r_pwm)
     
     if (left_vel == 0.0 and right_vel == 0.0):
         stop()

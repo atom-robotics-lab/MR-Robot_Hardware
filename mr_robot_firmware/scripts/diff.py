@@ -34,9 +34,10 @@ rbpwm.start(0)
 
 def stop():
     #print('stopping')
-    lspeedPWM = 0
-    rspeedPWM = 0
-    return lspeedPWM, rspeedPWM
+    lapwm.ChangeDutyCycle(0)
+    lbpwm.ChangeDutyCycle(0)
+    rapwm.ChangeDutyCycle(0)
+    rbpwm.ChangeDutyCycle(0)
 
 def get_pwm(left_speed, right_speed):
     global max_pwm_val

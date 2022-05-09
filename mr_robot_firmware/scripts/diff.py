@@ -5,9 +5,9 @@ import RPi.GPIO as GPIO
 import time
 from math import pi
 
-motor_rpm = 60              #   max rpm of motor on full voltage 
-wheel_diameter = 0.065      #   in meters
-wheel_separation = 0.17     #   in meters
+motor_rpm = 100              #   max rpm of motor on full voltage 
+wheel_diameter = 0.095      #   in meters
+wheel_separation = 0.22     #   in meters
 max_pwm_val = 100           #   100 for Raspberry Pi , 255 for Arduino
 min_pwm_val = 30            #   Minimum PWM value that is needed for the robot to move
 
@@ -16,6 +16,7 @@ circumference_of_wheel = 2 * pi * wheel_radius
 max_speed = (circumference_of_wheel*motor_rpm)/60   #   m/sec
 
 GPIO.setmode(GPIO.BCM)
+GPIO.cleanup()
 
 GPIO.setup(12, GPIO.OUT)
 GPIO.setup(13, GPIO.OUT)
@@ -27,7 +28,6 @@ rapwm = GPIO.PWM(18, 1000)
 rbpwm = GPIO.PWM(19, 1000)
 
 lapwm.start(0)
-
 lbpwm.start(0)
 rapwm.start(0)
 rbpwm.start(0)
@@ -56,10 +56,11 @@ def callback(data):
     print('linear and angular: ', linear_vel, angular_vel)
     right_vel = linear_vel + (angular_vel * wheel_separation) / 2       # right wheel velocity
     left_vel  = linear_vel - (angular_vel * wheel_separation) / 2              # left wheel velocity
+    print('left speed and right speed: ', left_vel, right_vel)
 
     l_pwm, r_pwm = get_pwm(left_vel, right_vel)
 
-    print('left and right: ', l_pwm, r_pwm)
+    print('left pwm and right pwm: ', l_pwm, r_pwm)
     
     if (left_vel == 0.0 and right_vel == 0.0):
         stop()

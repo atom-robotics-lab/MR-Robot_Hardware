@@ -89,7 +89,6 @@ def callback(data):
         print("turning left")
 
     elif (left_vel > 0.0 and right_vel < 0.0):
-        refine(abs(left_vel), abs(right_vel))
         lapwm.ChangeDutyCycle(l_pwm)
         lbpwm.ChangeDutyCycle(0)
         rapwm.ChangeDutyCycle(0)

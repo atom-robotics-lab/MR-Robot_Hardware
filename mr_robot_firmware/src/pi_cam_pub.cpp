@@ -56,7 +56,7 @@ int main(int argc, char** argv)
       msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
       flipped_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", flipped_frame).toImageMsg();
       pub_frame.publish(msg);
-      pub_frame2.publish(msg);
+      pub_frame2.publish(flipped_msg);
       /*
       Cv_bridge can selectively convert color and depth information. In order to use the specified
       feature encoding, there is a centralized coding form:

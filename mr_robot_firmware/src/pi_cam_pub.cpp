@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     // Publish to the /camera topic
     image_transport::Publisher pub_frame = it.advertise("camera", 1);
      
-    cv::Mat frame;//Mat is the image class defined in OpenCV
+    cv::Mat frame, flipped_frame;//Mat is the image class defined in OpenCV
     sensor_msgs::ImagePtr msg;
  
     ros::Rate loop_rate(10);

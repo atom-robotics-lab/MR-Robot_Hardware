@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+
+<launch>
+				
+	<node name="diff_drive" pkg="mr_robot_firmware" type="motor_controller.py" output="screen"/>
+
+    <node name="pi_cam_pub" pkg="mr_robot_firmware" type="pi_cam_pub" output="screen"/>
+		
+	<include file="$(find ydlidar_ros)/launch/X2L.launch" />
+
+</launch>

@@ -211,5 +211,5 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(webcam_pub_cpp src/webcam_pub_cpp.cpp)
-target_link_libraries(webcam_pub_cpp ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(pi_cam_pub src/pi_cam_pub.cpp)
+target_link_libraries(pi_cam_pub ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

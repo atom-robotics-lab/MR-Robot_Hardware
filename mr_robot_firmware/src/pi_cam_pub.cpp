@@ -2,6 +2,7 @@
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <ros/ros.h>
+#include <ros/console.h>
 #include <sensor_msgs/image_encodings.h>
  
 // Author: Addison Sears-Collins
@@ -21,15 +22,20 @@ int main(int argc, char** argv)
       ROS_ERROR_STREAM("Failed to open camera with index " << CAMERA_INDEX << "!");
       ros::shutdown();
     }
+    else
+    {
+      ROS_DEBUG("Camera Has Started");
+    }
      
     // Image_transport is responsible for publishing and subscribing to Images
     image_transport::ImageTransport it(nh);
      
     // Publish to the /camera topic
     image_transport::Publisher pub_frame = it.advertise("camera", 1);
+    image_transport::Publisher pub_frame2 = it.advertise("camera_flipped", 1);
      
     cv::Mat frame, flipped_frame;//Mat is the image class defined in OpenCV
-    sensor_msgs::ImagePtr msg;
+    sensor_msgs::ImagePtr msg, flipped_msg;
  
     ros::Rate loop_rate(10);
  
@@ -47,8 +53,10 @@ int main(int argc, char** argv)
       cv::flip(frame,flipped_frame,0);
  
       // Convert image from cv::Mat (OpenCV) type to sensor_msgs/Image (ROS) type and publish
-      msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", flipped_frame).toImageMsg();
+      msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
+      flipped_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", flipped_frame).toImageMsg();
       pub_frame.publish(msg);
+      pub_frame2.publish(msg);
       /*
       Cv_bridge can selectively convert color and depth information. In order to use the specified
       feature encoding, there is a centralized coding form:

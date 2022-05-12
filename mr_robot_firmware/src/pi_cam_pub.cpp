@@ -44,7 +44,7 @@ int main(int argc, char** argv)
         ros::shutdown();
       }
 
-      flip(frame,flipped_frame,1);
+      flip(frame,flipped_frame,0);
  
       // Convert image from cv::Mat (OpenCV) type to sensor_msgs/Image (ROS) type and publish
       msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", flipped_frame).toImageMsg();

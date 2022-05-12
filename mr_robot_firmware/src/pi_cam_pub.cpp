@@ -43,9 +43,11 @@ int main(int argc, char** argv)
         ROS_ERROR_STREAM("Failed to capture image!");
         ros::shutdown();
       }
+
+      flip(frame,flipped_frame,1);
  
       // Convert image from cv::Mat (OpenCV) type to sensor_msgs/Image (ROS) type and publish
-      msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
+      msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", flipped_frame).toImageMsg();
       pub_frame.publish(msg);
       /*
       Cv_bridge can selectively convert color and depth information. In order to use the specified

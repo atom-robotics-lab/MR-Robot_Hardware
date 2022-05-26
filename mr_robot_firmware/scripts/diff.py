@@ -7,8 +7,6 @@ from math import pi
 
 
 GPIO.setmode(GPIO.BCM)
-GPIO.cleanup()
-
 
 GPIO.setup(5, GPIO.OUT)
 GPIO.setup(6, GPIO.OUT)
@@ -41,13 +39,12 @@ class DifferntialDriver :
 
 
 
-    def stop( self ):
-        
+    def stop( self ):        
         self.lapwm.ChangeDutyCycle(0)
         self.lbpwm.ChangeDutyCycle(0)
         self.rapwm.ChangeDutyCycle(0)
         self.rbpwm.ChangeDutyCycle(0)
-        GPIO.cleanup()
+        
 
     def get_pwm(self, left_speed, right_speed):
         
@@ -56,68 +53,84 @@ class DifferntialDriver :
 
         return abs(lspeedPWM), abs(rspeedPWM)
     
-    def callback(self, data):       
-   
-        linear_vel = data.linear.x                  # Linear Velocity of Robot
-        angular_vel = data.angular.z                # Angular Velocity of Robot
+    def callback(self, data):      
 
-        print('linear and angular: ', linear_vel, angular_vel)
-        right_vel = linear_vel + (angular_vel * self.wheel_separation) / 2       # right wheel velocity
-        left_vel  = linear_vel - (angular_vel * self.wheel_separation) / 2              # left wheel velocity
-        print('left speed and right speed: ', left_vel, right_vel)
+        try :
 
-        l_pwm, r_pwm = self.get_pwm(left_vel, right_vel)
+            linear_vel = data.linear.x                                              # Linear Velocity of Robot
+            angular_vel = data.angular.z                                            # Angular Velocity of Robot
 
-        print('left pwm and right pwm: ', l_pwm, r_pwm)
-    
-        if (left_vel == 0.0 and right_vel == 0.0):
-            self.stop()
-            print("stopping")
+            print('linear and angular: ', linear_vel, angular_vel)
+            right_vel = linear_vel + (angular_vel * self.wheel_separation) / 2      # right wheel velocity
+            left_vel  = linear_vel - (angular_vel * self.wheel_separation) / 2      # left wheel velocity
+            print('left speed and right speed: ', left_vel, right_vel)
 
-        elif (left_vel >= 0.0 and right_vel >= 0.0):
-            self.lapwm.ChangeDutyCycle(l_pwm)
-            self.lbpwm.ChangeDutyCycle(0)
-            self.rapwm.ChangeDutyCycle(r_pwm)
-            self.rbpwm.ChangeDutyCycle(0)
-            print("moving forward")
+            l_pwm, r_pwm = self.get_pwm(left_vel, right_vel)
 
-        elif (left_vel <= 0.0 and right_vel <= 0.0):
+            print('left pwm and right pwm: ', l_pwm, r_pwm)
 
-            self.lapwm.ChangeDutyCycle(0)
-            self.lbpwm.ChangeDutyCycle(l_pwm)
-            self.rapwm.ChangeDutyCycle(0)
-            self.rbpwm.ChangeDutyCycle(r_pwm)
-            print("moving backward")
+            if (left_vel == 0.0 and right_vel == 0.0):
+                self.stop()
+                print("stopping")
 
-        elif (left_vel < 0.0 and right_vel > 0.0):
-            self.lapwm.ChangeDutyCycle(0)
-            self.lbpwm.ChangeDutyCycle(l_pwm)
-            self.rapwm.ChangeDutyCycle(r_pwm)
-            self.rbpwm.ChangeDutyCycle(0)
-            print("turning left")
+            elif (left_vel >= 0.0 and right_vel >= 0.0):
+                self.lapwm.ChangeDutyCycle(l_pwm)
+                self.lbpwm.ChangeDutyCycle(0)
+                self.rapwm.ChangeDutyCycle(r_pwm)
+                self.rbpwm.ChangeDutyCycle(0)
+                print("moving forward")
 
-        elif (left_vel > 0.0 and right_vel < 0.0):
-            self.lapwm.ChangeDutyCycle(l_pwm)
-            self.lbpwm.ChangeDutyCycle(0)
-            self.rapwm.ChangeDutyCycle(0)
-            self.rbpwm.ChangeDutyCycle(r_pwm)
-            print("turning right")
-        
-        else:
-            self.stop()
+            elif (left_vel <= 0.0 and right_vel <= 0.0):
+
+                self.lapwm.ChangeDutyCycle(0)
+                self.lbpwm.ChangeDutyCycle(l_pwm)
+                self.rapwm.ChangeDutyCycle(0)
+                self.rbpwm.ChangeDutyCycle(r_pwm)
+                print("moving backward")
+
+            elif (left_vel < 0.0 and right_vel > 0.0):
+                self.lapwm.ChangeDutyCycle(0)
+                self.lbpwm.ChangeDutyCycle(l_pwm)
+                self.rapwm.ChangeDutyCycle(r_pwm)
+                self.rbpwm.ChangeDutyCycle(0)
+                print("turning left")
+
+            elif (left_vel > 0.0 and right_vel < 0.0):
+                self.lapwm.ChangeDutyCycle(l_pwm)
+                self.lbpwm.ChangeDutyCycle(0)
+                self.rapwm.ChangeDutyCycle(0)
+                self.rbpwm.ChangeDutyCycle(r_pwm)
+                print("turning right")
+
+            else:
+                self.stop()
+
+        except KeyboardInterrupt:
+            print("Keyboard Interruption")
+
+        except :
+            print("Other error or exception occured")
+
+        finally :
+            print("Cleaning GPIO")
+            GPIO.cleanup()
+
         
     def listener( self ):
         rospy.init_node('cmdvel_listener', anonymous=False)
-        rospy.Subscriber("/cmd_vel", Twist, callback)
+        rospy.Subscriber("/cmd_vel", Twist, self.callback)
         rospy.spin()
 
 
 
 
 if __name__== '__main__':
-    print('MR_Robot Differential Drive Initialized with following Params-')
-    print('Motor Max RPM:\t'+str(motor_rpm)+' RPM')
-    print('Wheel Diameter:\t'+str(wheel_diameter)+' m')
-    print('Wheel Separation:\t'+str(wheel_separation)+' m')
-    print('Robot Max Speed:\t'+str(max_speed)+' m/sec')
-    listener()
+    dd = DifferntialDriver()    
+    
+    print('Differntial Drive Initialized with following Params-')
+    print('Motor Max RPM:\t'+str(dd.motor_rpm)+' RPM')
+    print('Wheel Diameter:\t'+str(dd.wheel_diameter)+' m')
+    print('Wheel Separation:\t'+str(dd.wheel_separation)+' m')
+    print('Robot Max Speed:\t'+str(dd.max_speed)+' m/sec')
+
+    dd.listener()

@@ -33,17 +33,6 @@ fwrd_distance = 0
 bkwrd_distance = 0
 
 
-def algo(val_a, val_b, seq_a, seq_b):
-    seq_a = seq_a << 1
-    seq_a = seq_a | val_a
-    seq_a = seq_a & 15
-
-    seq_b = seq_b << 1
-    seq_b = seq_b | val_b
-    seq_b = seq_b & 15
-
-    return [seq_a, seq_b]
-
 
 def init():
     print("Rotary Encoder Test Program")

@@ -76,8 +76,13 @@ def isr_A(lft_Enc_A):
     a_val = GPIO.input(lft_Enc_A)
     b_val = GPIO.input(lft_Enc_B)
 
-    seq_a_lw = algo(a_val, b_val, seq_a_lw, seq_b_lw)[0]
-    seq_b_lw = algo(a_val, b_val, seq_a_lw, seq_b_lw)[1]
+    seq_a_lw = seq_a_lw << 1
+    seq_a_lw = seq_a_lw | a_val
+    seq_a_lw = seq_a_lw & 15
+
+    seq_b_lw = seq_b_lw << 1
+    seq_b_lw = seq_b_lw | b_val
+    seq_b_lw = seq_b_lw & 15
     # anti_clk wise
     if (seq_a_lw == 9) & (seq_b_lw == 3):
         count_lft_lw = count_lft_lw + 1
@@ -105,9 +110,14 @@ def isr_B(lft_Enc_B):
 
     a_val = GPIO.input(lft_Enc_A)
     b_val = GPIO.input(lft_Enc_B)
+     
+    seq_a_lw = seq_a_lw << 1
+    seq_a_lw = seq_a_lw | a_val
+    seq_a_lw = seq_a_lw & 15
 
-    seq_a_lw = algo(a_val, b_val, seq_a_lw, seq_b_lw)[0]
-    seq_b_lw = algo(a_val, b_val, seq_a_lw, seq_b_lw)[1]
+    seq_b_lw = seq_b_lw << 1
+    seq_b_lw = seq_b_lw | b_val
+    seq_b_lw = seq_b_lw & 15
 
     # anti_clk wise
     if (seq_a_lw == 9) & (seq_b_lw == 3):
@@ -140,8 +150,13 @@ def isr_b(rgt_Enc_B):
     b_val = GPIO.input(rgt_Enc_B)
     print(a_val, b_val)
 
-    seq_a_rw = algo(a_val, b_val, seq_a_rw, seq_b_rw)[0]
-    seq_b_rw = algo(a_val, b_val, seq_a_rw, seq_b_rw)[1]
+    seq_a_rw = seq_a_rw << 1
+    seq_a_rw = seq_a_rw | a_val
+    seq_a_rw = seq_a_rw & 15
+
+    seq_b_rw = seq_b_rw << 1
+    seq_b_rw = seq_b_rw | b_val
+    seq_b_rw = seq_b_rw & 15
     print(seq_a_rw, seq_b_rw)
 
     # anti_clk wise
@@ -167,8 +182,13 @@ def isr_a(rgt_Enc_A):
     b_val = GPIO.input(rgt_Enc_B)
     print(a_val, b_val)
 
-    seq_a_rw = algo(a_val, b_val, seq_a_lw, seq_b_rw)[0]
-    seq_b_rw = algo(a_val, b_val, seq_a_lw, seq_b_rw)[1]
+    seq_a_rw = seq_a_rw << 1
+    seq_a_rw = seq_a_rw | a_val
+    seq_a_rw = seq_a_rw & 15
+
+    seq_b_rw = seq_b_rw << 1
+    seq_b_rw = seq_b_rw | b_val
+    seq_b_rw = seq_b_rw & 15
     print(seq_a_rw, seq_b_rw)
 
     # anti_clk wise

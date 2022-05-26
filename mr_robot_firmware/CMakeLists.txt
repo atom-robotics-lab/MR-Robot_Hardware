@@ -10,7 +10,14 @@ project(mr_robot_firmware)
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   std_msgs
+  image_transport
+  roscpp
+  rospy
+  sensor_msgs
+  cv_bridge
 )
+find_package(OpenCV)
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -203,3 +210,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(pi_cam_pub src/pi_cam_pub.cpp)
+target_link_libraries(pi_cam_pub ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

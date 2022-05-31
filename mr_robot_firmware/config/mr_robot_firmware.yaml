@@ -4,3 +4,7 @@ mr_robot_firmware :
   wheel_separation : 0.22
   max_pwm_val : 100 
   min_pwm_val : 30
+  high1 : 5
+  ground1 : 6
+  high2 : 16
+  ground2 : 20

@@ -48,10 +48,10 @@ class DifferentialDriver :
         self.max_pwm_val = rospy.get_param("mr_robot_firmware/max_pwm_val")
         self.min_pwm_val = rospy.get_param("mr_robot_firmware/min_pwm_val")
         
-        self.high1 = rospy.get_param("mr_robot_firmware/high1")
-        self.ground1 = rospy.get_param("mr_robot_firmware/ground1")
-        self.high2 = rospy.get_param("mr_robot_firmware/high2")
-        self.ground2 = rospy.get_param("mr_robot_firmware/ground2")   
+        self.high1 = rospy.get_param("mr_robot_firmware/leftA")
+        self.ground1 = rospy.get_param("mr_robot_firmware/leftB")
+        self.high2 = rospy.get_param("mr_robot_firmware/rightA")
+        self.ground2 = rospy.get_param("mr_robot_firmware/rightB")   
 
     def stop( self ):
 
@@ -133,7 +133,7 @@ if __name__== '__main__':
 
     dd = DifferentialDriver()    
     
-    rospy.loginfo('Differntial Drive Initialized with following Params-')
+    rospy.loginfo('Differential Drive Initialized with following Params-')
     rospy.loginfo('Motor Max RPM:\t'+str(dd.motor_rpm)+' RPM')
     rospy.loginfo('Wheel Diameter:\t'+str(dd.wheel_diameter)+' m')
     rospy.loginfo('Wheel Separation:\t'+str(dd.wheel_separation)+' m')

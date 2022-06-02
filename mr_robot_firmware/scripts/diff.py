@@ -116,6 +116,9 @@ class DifferentialDriver :
         else:
             self.stop()
 
+    def (self,lapwm , lbpwm , rapwm , rbpwm ) :
+        pass
+
         
         
     def cmd_callback( self ):
@@ -145,9 +148,11 @@ if __name__== '__main__':
     
     except KeyboardInterrupt:
         rospy.loginfo("Keyboard Interruption")
+        dd.gpio_cleanup()
 
     except :
         rospy.loginfo("Other error or exception occured")
+        dd.gpio_cleanup()
 
     finally :
         rospy.loginfo("Cleaning GPIO")

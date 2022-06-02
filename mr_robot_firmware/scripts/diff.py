@@ -29,10 +29,10 @@ class DifferentialDriver :
         self.GPIO.setup(self.high2 , GPIO.OUT)
         self.GPIO.setup(self.ground2 , GPIO.OUT)
 
-        self.lapwm = self.GPIO.PWM(self.high1 , 1000)
-        self.lbpwm = self.GPIO.PWM(self.ground1 , 1000)
-        self.rapwm = self.GPIO.PWM(self.high2 , 1000)
-        self.rbpwm = self.GPIO.PWM(self.ground2 , 1000)
+        self.lapwm = self.GPIO.PWM(self.leftA , 1000)
+        self.lbpwm = self.GPIO.PWM(self.leftB , 1000)
+        self.rapwm = self.GPIO.PWM(self.rightA , 1000)
+        self.rbpwm = self.GPIO.PWM(self.rightB , 1000)
 
         self.lapwm.start(0)
         self.lbpwm.start(0)
@@ -48,10 +48,10 @@ class DifferentialDriver :
         self.max_pwm_val = rospy.get_param("mr_robot_firmware/max_pwm_val")
         self.min_pwm_val = rospy.get_param("mr_robot_firmware/min_pwm_val")
         
-        self.high1 = rospy.get_param("mr_robot_firmware/leftA")
-        self.ground1 = rospy.get_param("mr_robot_firmware/leftB")
-        self.high2 = rospy.get_param("mr_robot_firmware/rightA")
-        self.ground2 = rospy.get_param("mr_robot_firmware/rightB")   
+        self.leftA = rospy.get_param("mr_robot_firmware/leftA")
+        self.leftB = rospy.get_param("mr_robot_firmware/leftB")
+        self.rightA = rospy.get_param("mr_robot_firmware/rightA")
+        self.rightB = rospy.get_param("mr_robot_firmware/rightB")   
 
     def stop( self ):
 

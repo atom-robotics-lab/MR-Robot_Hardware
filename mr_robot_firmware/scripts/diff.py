@@ -54,11 +54,7 @@ class DifferentialDriver :
         self.rightB = rospy.get_param("mr_robot_firmware/rightB")   
 
     def stop( self ):
-
-        self.lapwm.ChangeDutyCycle(0)
-        self.lbpwm.ChangeDutyCycle(0)
-        self.rapwm.ChangeDutyCycle(0)
-        self.rbpwm.ChangeDutyCycle(0)
+        self.change_duty_cycle(0, 0 , 0 , 0)       
         
 
     def get_pwm(self, left_speed, right_speed):
@@ -86,38 +82,30 @@ class DifferentialDriver :
             rospy.loginfo("stopping")
 
         elif (left_vel >= 0.0 and right_vel >= 0.0):
-            self.lapwm.ChangeDutyCycle(l_pwm)
-            self.lbpwm.ChangeDutyCycle(0)
-            self.rapwm.ChangeDutyCycle(r_pwm)
-            self.rbpwm.ChangeDutyCycle(0)
+            self.change_duty_cycle(l_pwm , 0 , r_pwm , 0)            
             rospy.loginfo("moving forward")
         
         elif (left_vel <= 0.0 and right_vel <= 0.0):
-            self.lapwm.ChangeDutyCycle(0)
-            self.lbpwm.ChangeDutyCycle(l_pwm)
-            self.rapwm.ChangeDutyCycle(0)
-            self.rbpwm.ChangeDutyCycle(r_pwm)
+            self.change_duty_cycle(0 , l_pwm , 0 , r_pwm)          
             rospy.loginfo("moving backward")
         
         elif (left_vel < 0.0 and right_vel > 0.0):
-            self.lapwm.ChangeDutyCycle(0)
-            self.lbpwm.ChangeDutyCycle(l_pwm)
-            self.rapwm.ChangeDutyCycle(r_pwm)
-            self.rbpwm.ChangeDutyCycle(0)
+            self.change_duty_cycle(0 , l_pwm , r_pwm , 0)
             rospy.loginfo("turning left")
         
         elif (left_vel > 0.0 and right_vel < 0.0):
-            self.lapwm.ChangeDutyCycle(l_pwm)
-            self.lbpwm.ChangeDutyCycle(0)
-            self.rapwm.ChangeDutyCycle(0)
-            self.rbpwm.ChangeDutyCycle(r_pwm)
+            self.change_duty_cycle(l_pwm , 0 , 0 , r_pwm)
             rospy.loginfo("turning right")
         
         else:
             self.stop()
 
-    def (self,lapwm , lbpwm , rapwm , rbpwm ) :
-        pass
+    def change_duty_cycle(self, lapwm , lbpwm , rapwm , rbpwm ) :
+        self.lapwm.ChangeDutyCycle(lapwm)
+        self.lbpwm.ChangeDutyCycle(lbpwm)
+        self.rapwm.ChangeDutyCycle(rapwm)
+        self.rbpwm.ChangeDutyCycle(rbpwm)
+        
 
         
         

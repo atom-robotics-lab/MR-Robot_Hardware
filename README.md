@@ -26,5 +26,5 @@ After that navigate into Ros_workspaces and create a workspace catkin_ws(u can a
 
 Now clone the repo MR-ROBOT_Hardware using command
 ```bash
-git clone
+git clone git@github.com:atom-robotics-lab/MR-Robot_Hardware.git
 ```

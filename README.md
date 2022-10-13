@@ -42,5 +42,5 @@ export ROS_MASTER_URI=http://localhost:11311/
 export ROS_HOSTNAME=IP Address
 export ROS_IP= IP Address
 ```
-
+Now navigate into the pi and use the command
 

@@ -11,3 +11,9 @@ touch .ssh
 Now insert your sd-card into the pi now u are ready to go.
 
 # PI
+Now to navigate inside the pi.Type the command
+```bash
+ssh pi@I.P Address of the pi
+```
+
+Download a application called FING to check out the Ip address of nearby devices.

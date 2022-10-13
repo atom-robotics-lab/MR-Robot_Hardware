@@ -31,4 +31,11 @@ git clone git@github.com:atom-robotics-lab/MR-Robot_Hardware.git
 # KEEP SOURCING YOUR WORKSPACE
 
 # CONNECTION BETWEEN COMPUTER AND PI 
+Now we have to setup a connection between the PC (Master) and the Pi(slave) for that we need to host the ip of the PC and get the Pi to connect to it.
+For this get inside of the bashrc of the PC using command.
+```bash
+gedit .bashrc
+```
+And add the following lines
+
 

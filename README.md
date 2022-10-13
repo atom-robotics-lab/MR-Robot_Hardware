@@ -37,5 +37,10 @@ For this get inside of the bashrc of the PC using command.
 gedit .bashrc
 ```
 And add the following lines
+```bash
+export ROS_MASTER_URI=http://localhost:11311/
+export ROS_HOSTNAME=IP Address
+export ROS_IP= IP Address
+```
 
 

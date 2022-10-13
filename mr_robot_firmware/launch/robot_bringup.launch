@@ -5,6 +5,8 @@
 	<node name="diff_drive" pkg="mr_robot_firmware" type="diff.py" output="screen"/>
 
     <node name="pi_cam_pub" pkg="mr_robot_firmware" type="pi_cam_pub" output="screen"/>
+
+	<rosparam file="$(find mr_robot_firmware)/config/mr_robot_firmware.yaml" command="load" />
 		
 	<!-- <include file="$(find ydlidar_ros)/launch/X2L.launch" /> -->
 

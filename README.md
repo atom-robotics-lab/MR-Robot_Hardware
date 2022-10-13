@@ -28,3 +28,6 @@ Now clone the repo MR-ROBOT_Hardware using command
 ```bash
 git clone git@github.com:atom-robotics-lab/MR-Robot_Hardware.git
 ```
+# KEEP SOURCING YOUR WORKSPACE
+
+# I.P SETUP

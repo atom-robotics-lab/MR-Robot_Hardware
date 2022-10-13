@@ -17,3 +17,14 @@ ssh pi@I.P Address of the pi
 ```
 
 Download a application called FING to check out the Ip address of nearby devices.
+
+After following the above command the pi will ask for a password which is:
+```bash
+raspberry
+```
+After that navigate into Ros_workspaces and create a workspace catkin_ws(u can always check wiki-ros if u get stuck at this step :) )
+
+Now clone the repo MR-ROBOT_Hardware using command
+```bash
+git clone
+```

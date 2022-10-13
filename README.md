@@ -3,3 +3,11 @@ First of all flash your pi with the image provided by atom.It is done using rasp
 ```bash
 sudo nano wpa_supplicant.config
 ```
+Add your WIFI and password over there and press ctrl X ,then press Y anfd then enter.
+Now go to boot and a .ssh file over there using command.
+```bash
+touch .ssh
+```
+Now insert your sd-card into the pi now u are ready to go.
+
+# PI

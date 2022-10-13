@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+
+    <param command="$(find xacro)/xacro $(find prota_description)/urdf/prota.xacro" name="robot_description"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- <include file="$(find simbha_control)/launch/ekf.launch" /> -->
+    				
+	<node name="diff_drive" pkg="simbha_control" type="twist_to_pwm.py" output="screen"/>
+
+    <node name="odom_pub" pkg="simbha_control" type="ekf_odom_pub"/>
+
+	<!-- <node name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB0 57600"/> -->
+
+
+</launch>

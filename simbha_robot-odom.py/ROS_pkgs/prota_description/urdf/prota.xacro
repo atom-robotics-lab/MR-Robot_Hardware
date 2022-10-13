@@ -1,0 +1,408 @@
+<?xml version="1.0" ?>
+<robot name="prota" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find prota_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find prota_description)/urdf/prota.trans" />
+<xacro:include filename="$(find prota_description)/urdf/prota.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.006396433432793894 0.03089442948823982 0.06488006730219237" rpy="0 0 0"/>
+    <mass value="4.222555661782558"/>
+    <inertia ixx="0.017324" iyy="0.018116" izz="0.025673" ixy="0.000273" iyz="-2e-06" ixz="7.6e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="laser">
+  <inertial>
+    <origin xyz="-0.03629449423619915 0.020488725085284334 0.03498272473261882" rpy="0 0 0"/>
+    <mass value="1.137675971357522"/>
+    <inertia ixx="0.000463" iyy="0.000738" izz="0.000919" ixy="-3e-06" iyz="-6e-06" ixz="0.000104"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.044152 -0.010915 -0.151878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/laser_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.044152 -0.010915 -0.151878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/laser_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="layer_2_1_1">
+  <inertial>
+    <origin xyz="0.0014635654929070754 2.5196527501589183e-07 0.009794329588045297" rpy="0 0 0"/>
+    <mass value="2.176651619891298"/>
+    <inertia ixx="0.008665" iyy="0.008338" izz="0.015383" ixy="0.0" iyz="-0.0" ixz="3.3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.006152 -0.030915 -0.149878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/layer_2_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.006152 -0.030915 -0.149878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/layer_2_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="top_plate_1">
+  <inertial>
+    <origin xyz="-2.428438707988839e-07 2.519657325110447e-07 -0.0004822773451587381" rpy="0 0 0"/>
+    <mass value="1.6014131499694457"/>
+    <inertia ixx="0.005255" iyy="0.005272" izz="0.01052" ixy="-0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.006152 -0.030915 -0.218878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/top_plate_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.006152 -0.030915 -0.218878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/top_plate_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="realsense_1">
+  <inertial>
+    <origin xyz="0.113811788888566 -0.0059762229008155365 -0.02631354794020946" rpy="0 0 0"/>
+    <mass value="0.421784739698528"/>
+    <inertia ixx="0.000534" iyy="4.8e-05" izz="0.000525" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.024763 -0.037067 -0.261757" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/realsense_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.024763 -0.037067 -0.261757" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/realsense_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="tof_3_1_1">
+  <inertial>
+    <origin xyz="0.015265226364601488 -0.010089570729672571 -0.012545840261851363" rpy="0 0 0"/>
+    <mass value="0.015633606424769256"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="2e-06" ixy="1e-06" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.059594 0.04646 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_3_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.059594 0.04646 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_3_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="tof_4_1_1">
+  <inertial>
+    <origin xyz="-0.0011052653494740133 -0.018264753887722168 -0.012545742138614611" rpy="0 0 0"/>
+    <mass value="0.015633463049589128"/>
+    <inertia ixx="3e-06" iyy="1e-06" izz="2e-06" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.09373 -0.049165 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_4_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.09373 -0.049165 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_4_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="tof_5_1_1">
+  <inertial>
+    <origin xyz="-0.015265712052308512 0.010089074660609834 -0.012545840261851952" rpy="0 0 0"/>
+    <mass value="0.01563360642476941"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="2e-06" ixy="1e-06" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.071898 -0.108291 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_5_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.071898 -0.108291 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_5_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="tof_1_1_1">
+  <inertial>
+    <origin xyz="0.0011047796604614357 0.01826523332013307 -0.012545742122750246" rpy="0 0 0"/>
+    <mass value="0.015633463070950107"/>
+    <inertia ixx="3e-06" iyy="1e-06" izz="2e-06" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.106034 -0.012665 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_1_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.106034 -0.012665 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_1_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="right_wheel_1_1">
+  <inertial>
+    <origin xyz="-0.049443213920577156 -0.09496534594649626 -0.04887829558751838" rpy="0 0 0"/>
+    <mass value="0.0770788904311176"/>
+    <inertia ixx="3e-05" iyy="5e-05" izz="3e-05" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.057443 -0.038915 -0.07609" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/right_wheel_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.057443 -0.038915 -0.07609" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/right_wheel_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="left_wheel_1_1">
+  <inertial>
+    <origin xyz="0.11430468395298124 0.07921874901325579 -0.04887867451900599" rpy="0 0 0"/>
+    <mass value="0.0770788904311176"/>
+    <inertia ixx="3e-05" iyy="5e-05" izz="3e-05" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.106764 -0.038456 -0.076006" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/left_wheel_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.106764 -0.038456 -0.076006" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/left_wheel_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="tof_2_1_1">
+  <inertial>
+    <origin xyz="-0.015239749848131992 -0.010074581444102435 -0.012545840261851349" rpy="0 0 0"/>
+    <mass value="0.015633606424769186"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="2e-06" ixy="-1e-06" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.071898 0.04646 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_2_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.071898 0.04646 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_2_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="tof_6_1_1">
+  <inertial>
+    <origin xyz="0.015239264160425002 0.010074085375039524 -0.012545840261851987" rpy="0 0 0"/>
+    <mass value="0.015633606424769297"/>
+    <inertia ixx="1e-06" iyy="2e-06" izz="2e-06" ixy="-1e-06" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.059594 -0.108291 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_6_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.059594 -0.108291 -0.048878" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/tof_6_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="right_caster_1">
+  <inertial>
+    <origin xyz="-1.8273720515937786e-07 2.519654686075623e-07 -0.004032171982407477" rpy="0 0 0"/>
+    <mass value="0.008869496244105208"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.07251 -0.030915 -0.004816" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/right_caster_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.07251 -0.030915 -0.004816" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/right_caster_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="left_caster_1">
+  <inertial>
+    <origin xyz="-1.8273720486794431e-07 2.519654682814343e-07 -0.004032171982407557" rpy="0 0 0"/>
+    <mass value="0.008869496244105213"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.08749 -0.030915 -0.004816" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/left_caster_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.08749 -0.030915 -0.004816" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://prota_description/meshes/left_caster_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Rigid15" type="fixed">
+  <origin xyz="0.038 -0.02 0.002" rpy="0 0 0"/>
+  <parent link="layer_2_1_1"/>
+  <child link="laser"/>
+</joint>
+
+<joint name="Rigid16" type="fixed">
+  <origin xyz="0.006152 0.030915 0.149878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="layer_2_1_1"/>
+</joint>
+
+<joint name="Rigid17" type="fixed">
+  <origin xyz="0.0 0.0 0.069" rpy="0 0 0"/>
+  <parent link="layer_2_1_1"/>
+  <child link="top_plate_1"/>
+</joint>
+
+<joint name="Rigid18" type="fixed">
+  <origin xyz="-0.030915 0.006152 0.042879" rpy="0 0 0"/>
+  <parent link="top_plate_1"/>
+  <child link="realsense_1"/>
+</joint>
+
+<joint name="Rigid20" type="fixed">
+  <origin xyz="-0.059594 -0.04646 0.048878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="tof_3_1_1"/>
+</joint>
+
+<joint name="Rigid21" type="fixed">
+  <origin xyz="-0.09373 0.049165 0.048878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="tof_4_1_1"/>
+</joint>
+
+<joint name="Rigid23" type="fixed">
+  <origin xyz="0.071898 0.108291 0.048878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="tof_5_1_1"/>
+</joint>
+
+<joint name="Rigid24" type="fixed">
+  <origin xyz="0.106034 0.012665 0.048878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="tof_1_1_1"/>
+</joint>
+
+<joint name="Rev28" type="continuous">
+  <origin xyz="0.057443 0.038915 0.07609" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="right_wheel_1_1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Rev29" type="continuous">
+  <origin xyz="-0.106764 0.038456 0.076006" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="left_wheel_1_1"/>
+  <axis xyz="0.0 1.0 -0.0"/>
+</joint>
+
+<joint name="Rigid30" type="fixed">
+  <origin xyz="0.071898 -0.04646 0.048878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="tof_2_1_1"/>
+</joint>
+
+<joint name="Rigid31" type="fixed">
+  <origin xyz="-0.059594 0.108291 0.048878" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="tof_6_1_1"/>
+</joint>
+
+<joint name="Rigid32" type="fixed">
+  <origin xyz="-0.07251 0.030915 0.004816" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="right_caster_1"/>
+</joint>
+
+<joint name="Rigid33" type="fixed">
+  <origin xyz="0.08749 0.030915 0.004816" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="left_caster_1"/>
+</joint>
+
+</robot>

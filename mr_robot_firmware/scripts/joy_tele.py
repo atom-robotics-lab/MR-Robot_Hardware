@@ -12,12 +12,12 @@ from sensor_msgs.msg import Joy
 
 def callback(data):    
     twist = Twist()    
-    twist.linear.x = 100000000000*data.axes[1]    
-    twist.angular.z = 10000000000*data.axes[0]
+    twist.linear.x = 1.15*data.axes[1]    
+    twist.angular.z = 1.15*data.axes[0]
     if data.buttons[4] == 1:    
-        twist.angular.z = 1000000000*data.buttons[4]
+        twist.angular.z = 1.15*data.buttons[4]
     elif data.buttons[5] == 1:    
-        twist.angular.z = -1000000000*data.buttons[5]
+        twist.angular.z = -1.15*data.buttons[5]
 
     
     print(data)

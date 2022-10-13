@@ -43,4 +43,7 @@ export ROS_HOSTNAME=IP Address
 export ROS_IP= IP Address
 ```
 Now navigate into the pi and use the command
-
+```bash
+export ROS_MASTER_URI=http://ip address of PC:11311/
+export ROS_HOSTNAME=Ip address of pi
+export ROS_IP=Ip address of pi

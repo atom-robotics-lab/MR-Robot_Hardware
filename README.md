@@ -47,3 +47,5 @@ Now navigate into the pi and use the command
 export ROS_MASTER_URI=http://ip address of PC:11311/
 export ROS_HOSTNAME=Ip address of pi
 export ROS_IP=Ip address of pi
+```
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from matplotlib.pyplot import axes
 from matplotlib.widgets import Button
 import rospy
@@ -13,11 +13,11 @@ from sensor_msgs.msg import Joy
 def callback(data):    
     twist = Twist()    
     twist.linear.x = 1.15*data.axes[1]    
-    twist.angular.z = 1.15*data.axes[0]
+    twist.angular.z = 2*data.axes[0]
     if data.buttons[4] == 1:    
-        twist.angular.z = 1.15*data.buttons[4]
+        twist.angular.z = 2*data.buttons[4]
     elif data.buttons[5] == 1:    
-        twist.angular.z = -1.15*data.buttons[5]
+        twist.angular.z = -2*data.buttons[5]
 
     
     print(data)

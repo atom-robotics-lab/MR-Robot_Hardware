@@ -1,5 +1,0 @@
-	
-    
-    
-    
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simbha_control)/config/server.rviz" output = "screen"/>

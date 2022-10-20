@@ -210,6 +210,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
+add_executable(odom_pub src/ekf_odom_pub.cpp)
 add_executable(pi_cam_pub src/pi_cam_pub.cpp)
 target_link_libraries(pi_cam_pub ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

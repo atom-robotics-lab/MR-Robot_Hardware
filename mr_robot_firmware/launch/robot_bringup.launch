@@ -1,13 +1,21 @@
 <?xml version="1.0" ?>
 
 <launch>
-				
-	<node name="diff_drive" pkg="mr_robot_firmware" type="diff.py" output="screen"/>
 
-    <node name="pi_cam_pub" pkg="mr_robot_firmware" type="pi_cam_pub" output="screen"/>
+    <!-- <include file="$(find ydlidar_ros)/launch/X2L.launch" /> -->
 
-	<rosparam file="$(find mr_robot_firmware)/config/mr_robot_firmware.yaml" command="load" />
-		
-	<!-- <include file="$(find ydlidar_ros)/launch/X2L.launch" /> -->
+    <param command="$(find xacro)/xacro $(find mr_robot_description)/urdf/mr_robot.xacro" name="robot_description"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- <include file="$(find simbha_control)/launch/ekf.launch" /> -->
+    				
+	<node name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
+
+    <node name="odom_pub" pkg="mr_robot_firmware" type="diff_tf.py"/>
+
+	<!-- <node name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB0 57600"/> -->
+
 
 </launch>

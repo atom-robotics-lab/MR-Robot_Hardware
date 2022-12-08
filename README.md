@@ -71,6 +71,13 @@ If you’re interested in helping to improve our Project</a>, find out how to <a
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+# DFD
+
+<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/origin/readme_fix/assets/Mr_robot_dfd_1.png" >
+
+# MR-Robot Circuit Diagram
+
+<img src =  "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/origin/readme_fix/assets/MR_robot_circuit_1.png" >
 
 # CONNECTION BETWEEN COMPUTER AND PI 
 Now we have to setup a connection between the PC (Master) and the Pi(slave) for that we need to host the ip of the PC and get the Pi to connect to it.

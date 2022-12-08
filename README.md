@@ -75,26 +75,26 @@ If you’re interested in helping to improve our Project</a>, find out how to <a
 # CONNECTION BETWEEN COMPUTER AND PI 
 Now we have to setup a connection between the PC (Master) and the Pi(slave) for that we need to host the ip of the PC and get the Pi to connect to it.
 For this get inside of the bashrc of the PC using command.
-```bash
+```shell
 gedit .bashrc
 ```
 And add the following lines
-```bash
+```shell
 export ROS_MASTER_URI=http://localhost:11311/
 export ROS_HOSTNAME=IP Address
 export ROS_IP= IP Address
 ```
 Now navigate into the pi and use the command
-```bash
+```shell
 export ROS_MASTER_URI=http://ip address of PC:11311/
 export ROS_HOSTNAME=Ip address of pi
 export ROS_IP=Ip address of pi
 ```
 # LAUNCHING LIDAR
 
-'''bash
+```shell
 roslaunch ydlidar_ros X2L.launch
-'''
+```
 
 This command will start ***"/scan"*** topic which will provide lidar data to pi which ultimately reaches Navigation Stack.
 
@@ -106,17 +106,17 @@ ESP32 receiving feedback data form motor's encoder by subscribing to the topic *
 
 # Launching Odom Calculation Node
 
-'''bash
+```shell
 rosrun mr_robot_firmware diff_tf.py
-'''
+```
 
 This node calculates odom from left encoder data and right encoder data.
 
 # Launching Twist To PWM Node
 
-'''bash
+```shell
 rosrun mr_robot_firmware twist_to_pwm.py
-'''
+```
 
 This node converts Twist data into pwm for ESP32.
 <!-- CONTACTS -->

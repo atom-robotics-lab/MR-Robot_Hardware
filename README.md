@@ -102,7 +102,23 @@ This command will start ***"/scan"*** topic which will provide lidar data to pi 
 
 ESP32 is controlling all the moter realted task in the bot it is receiving value of PWM from topic ***"/left_pwm"*** and ***"/right_pwm"*** which is then given to motor driver.
 
-ESP32 receiving feedback data form motor's encoder which is then used in calculation odometry.
+ESP32 receiving feedback data form motor's encoder by subscribing to the topic ***"/left_encoder"*** and ***"/right_encoder"*** which is then used in calculation odometry by pi.
+
+# Launching Odom Calculation Node
+
+'''bash
+rosrun mr_robot_firmware diff_tf.py
+'''
+
+This node calculates odom from left encoder data and right encoder data.
+
+# Launching Twist To PWM Node
+
+'''bash
+rosrun mr_robot_firmware twist_to_pwm.py
+'''
+
+This node converts Twist data into pwm for ESP32.
 <!-- CONTACTS -->
 ## Contacts
 

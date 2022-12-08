@@ -118,7 +118,7 @@ This node calculates odom from left encoder data and right encoder data.
 rosrun mr_robot_firmware twist_to_pwm.py
 ```
 
-This node converts Twist data into pwm for ESP32.
+This node converts Twist data into a signal using PWM for ESP32.
 <!-- CONTACTS -->
 ## Contacts
 

@@ -96,11 +96,11 @@ export ROS_IP=Ip address of pi
 roslaunch ydlidar_ros X2L.launch
 '''
 
-This command will start **/scan** topic which will provide lidar data to pi which ultimately reaches Navigation Stack.
+This command will start ***"/scan"*** topic which will provide lidar data to pi which ultimately reaches Navigation Stack.
 
 # ESP32 USAGE
 
-ESP32 is controlling all the moter realted task in the bot it is receiving value of PWM from topic **/left_pwm** and **/right_pwm** which is then given to motor driver.
+ESP32 is controlling all the moter realted task in the bot it is receiving value of PWM from topic ***"/left_pwm"*** and ***"/right_pwm"*** which is then given to motor driver.
 
 ESP32 receiving feedback data form motor's encoder which is then used in calculation odometry.
 <!-- CONTACTS -->

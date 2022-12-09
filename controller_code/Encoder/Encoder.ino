@@ -22,17 +22,17 @@ ros::Publisher left_enc_pub("left_encoder", &encoder_msg_left);
 ros::Publisher right_enc_pub("right_encoder", &encoder_msg_right);
 
 //pins are changed as per esp32
-int encoderLPin1 = 35;
-int encoderLPin2 = 13;
-int encoderRPin1 = 14;
-int encoderRPin2 = 12;
+int encoderLPin1 = 13;
+int encoderLPin2 = 12;
+int encoderRPin1 = 2;
+int encoderRPin2 = 4;
 
-int LForward = 27;
-int LBackward = 32;
+int LForward = 22;
+int LBackward = 23;
 int LPWM = 26;
 
-int RForward = 33;
-int RBackward = 18;
+int RForward = 21;
+int RBackward = 19;
 int RPWM = 5;
 
 int standby = 25;

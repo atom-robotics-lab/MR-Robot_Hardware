@@ -101,7 +101,7 @@ void setup() {
   ledcSetup(ledChannel3, freq, resolution);
   ledcSetup(ledChannel4, freq, resolution);
 
-  //Serial.begin (9600);
+  //Serial.begin (57600);
 
   pinMode(encoderLPin1, INPUT_PULLUP); 
   pinMode(encoderLPin2, INPUT_PULLUP);

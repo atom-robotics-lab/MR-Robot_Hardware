@@ -10,10 +10,10 @@ mr_robot_firmware :
   leftB : 6
   rightA : 16
   rightB : 20
-  ~rate : 10.0
+  rate : 10.0
   ticks_meter : 15000
-  ~base_width : 0.20
-  ~base_frame_id : 'base_link'
-  ~odom_frame_id : 'odom'
-  encoder_min : -2147483648
-  encoder_max : 2147483648
+  base_width : 0.20
+  base_frame_id : 'base_link'
+  odom_frame_id : 'odom'
+  # encoder_min : -2147483648
+  # encoder_max : 2147483648

@@ -2,7 +2,7 @@
 
 <launch>
 
-    <!-- <include file="$(find ydlidar_ros)/launch/X2L.launch" /> -->
+    <include file="$(find ydlidar_ros)/launch/X2L.launch" />
 
     <param command="$(find xacro)/xacro $(find mr_robot_description)/urdf/mr_robot.xacro" name="robot_description"/>
 
@@ -13,9 +13,9 @@
     				
 	<node name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
 
-    <node name="odom_pub" pkg="mr_robot_firmware" type="diff_tf.py"/>
+    <node name="odom_pub" pkg="mr_robot_firmware" type="esp_diff_tf.py"/>
 
-	<!-- <node name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB0 57600"/> -->
+	<node name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB0 57600"/>
     <rosparam file="$(find mr_robot_firmware)/config/mr_robot_firmware.yaml" command="load" />
 
 

@@ -88,14 +88,14 @@ gedit .bashrc
 And add the following lines
 ```shell
 export ROS_MASTER_URI=http://localhost:11311/
-export ROS_HOSTNAME=IP Address
-export ROS_IP= IP Address
+export ROS_HOSTNAME=IP Address of PC
+export ROS_IP= IP Address of PC
 ```
 Now navigate into the pi and use the command
 ```shell
-export ROS_MASTER_URI=http://ip address of PC:11311/
-export ROS_HOSTNAME=Ip address of pi
-export ROS_IP=Ip address of pi
+export ROS_MASTER_URI=http://IP Address of PC:11311/
+export ROS_HOSTNAME=IP Address of PI
+export ROS_IP=IP Address of PI
 ```
 # LAUNCHING LIDAR
 

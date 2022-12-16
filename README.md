@@ -73,11 +73,11 @@ If you’re interested in helping to improve our Project</a>, find out how to <a
 
 # DFD
 
-<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/origin/readme_fix/assets/Mr_robot_dfd_1.png" >
+<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/main/assets/Mr_robot_dfd_1.png" >
 
 # MR-Robot Circuit Diagram
 
-<img src =  "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/origin/readme_fix/assets/MR_robot_circuit_1.png" >
+<img src =  "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/main/assets/MR_robot_circuit_1.png" >
 
 # CONNECTION BETWEEN COMPUTER AND PI 
 Now we have to setup a connection between the PC (Master) and the Pi(slave) for that we need to host the ip of the PC and get the Pi to connect to it.
@@ -97,6 +97,37 @@ export ROS_MASTER_URI=http://IP Address of PC:11311/
 export ROS_HOSTNAME=IP Address of PI
 export ROS_IP=IP Address of PI
 ```
+# ASSIGNING PORT FOR LIDAR AND ESP
+
+It is crucial to assign ports for LIDAR and ESP because both of them receive random ports in ttyUSB format. 
+
+Use This command to identify port and characters after "usb"
+
+```shell
+dmesg | grep ttyUSB
+```
+For creating the link from USB ports to the devices:-
+
+```shell
+sudo nano /etc/udev/rules.d/10-usb-serial.rules
+```
+
+```shell
+SUBSYSTEM=="tty", KERNELS=="1-1.4", SYMLINK+="ttyUSB_ESP"
+SUBSYSTEM=="tty", KERNELS=="1-1.1", SYMLINK+="ttyUSB_LIDAR"
+```
+For loading the new rules:-
+
+```shell
+sudo udevadm trigger
+```
+
+By running the next command in the Terminal, you may verify the new names you just made:-
+
+```shell
+ls -l /dev/ttyUSB*
+```
+
 # LAUNCHING LIDAR
 
 ```shell

@@ -2,7 +2,7 @@
 
 <launch>
 
-    <include file="$(find ydlidar_ros)/launch/X2L.launch" />
+    <!-- <include file="$(find ydlidar_ros)/launch/X2L.launch" /> -->
 
     <param command="$(find xacro)/xacro $(find mr_robot_description)/urdf/mr_robot.xacro" name="robot_description"/>
 

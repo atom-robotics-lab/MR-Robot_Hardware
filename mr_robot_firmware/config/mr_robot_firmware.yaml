@@ -4,8 +4,8 @@ mr_robot_firmware :
   wheel_separation : 0.23
   max_pwm_val : 100 
   min_pwm_val : 30
-  twist_max_pwm : 255
-  twist_min_pwm : -255
+  twist_max_pwm : 180
+  twist_min_pwm : -180
   leftA : 5
   leftB : 6
   rightA : 16

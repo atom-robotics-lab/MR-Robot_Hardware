@@ -1,21 +1,27 @@
 <?xml version="1.0" ?>
 
 <launch>
-
+    <machine name="pi" address="192.168.1.68" password="raspberry" env-loader="~/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
     <include file="$(find ydlidar_ros)/launch/X2L.launch" />
+
+    <arg default="$(find mr_robot_firmware)/config/rviz.rviz" name="rvizconfig"/>
+    <node args="-d $(arg rvizconfig)" name="rviz" pkg="rviz" required="true" type="rviz"/>
+    
+
+
 
     <param command="$(find xacro)/xacro $(find mr_robot_description)/urdf/mr_robot.xacro" name="robot_description"/>
 
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <node machine="pi" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node machine="pi" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
     <!-- <include file="$(find simbha_control)/launch/ekf.launch" /> -->
     				
-	<node name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
+	<node machine="pi" name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
 
-    <node name="odom_pub" pkg="mr_robot_firmware" type="esp_diff_tf.py"/>
+    <node machine="pi" name="odom_pub" pkg="mr_robot_firmware" type="esp_diff_tf.py"/>
 
-	<node name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB_ESP 57600"/>
+	<node machine="pi" name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB_ESP 57600"/>
     <rosparam file="$(find mr_robot_firmware)/config/mr_robot_firmware.yaml" command="load" />
 
 

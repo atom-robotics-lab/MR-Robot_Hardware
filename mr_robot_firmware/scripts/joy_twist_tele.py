@@ -2,9 +2,11 @@
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
+from ascii import welcome
 from termcolor import colored
 
 colors = ['red', 'green', 'cyan', 'blue', 'magenta']
+
 class TwistJoy:
     def __init__(self):        
         rospy.init_node('Joy2Turtle')
@@ -16,6 +18,12 @@ class TwistJoy:
         self.aR=0
         self.L1 = 0
         self.R1 = 0
+        self.fac1 = 1
+        self.fac2 = 1
+        self.up = 0
+        self.down = 0
+        self.left = 0
+        self.right = 0
         self.start()
 
 
@@ -26,17 +34,45 @@ class TwistJoy:
         self.aR = self.axes[0]
         self.R1 = self.buttons[5]
         self.L1 = self.buttons[4]
+        self.up = self.axes[6]
+        self.down = self.axes[6]
+        self.left = self.axes[5]
+        self.right = self.axes[5]
+        
 
 
     def start(self):
         rate = rospy.Rate(15)
         twist = Twist()
         while not rospy.is_shutdown():
-            twist.linear.x = 1.15*self.aL
-            twist.angular.z = 2*self.aR
+            
+            if self.up == 1:
+                self.fac1 += 0.05
+                rospy.loginfo("Linear = %f: Angular =%f\n",self.fac1,self.fac2)
+
+            elif self.down == -1:
+                self.fac1 -= 0.05
+                rospy.loginfo("Robot X = %f: Robot Z=%f\n",self.fac1,self.fac2)
+
+
+            if self.left == 1:
+                self.fac2 += 0.05
+                rospy.loginfo("Robot X = %f: Robot Z=%f\n",self.fac1,self.fac2)
+
+            elif self.right == -1:
+                self.fac2 -= 0.05
+                rospy.loginfo("Robot X = %f: Robot Z=%f\n",self.fac1,self.fac2)
+
+
+            twist.linear.x = self.fac1*self.aL
+            twist.angular.z = self.fac2*self.aR
+
             if self.L1 == 1:    
-                twist.angular.z = 2*self.L1
+                twist.angular.z = self.fac2*self.L1
             elif self.R1 == 1:    
-                twist.angular.z = -2*self.R1 
+                twist.angular.z = -self.fac2*self.R1 
+
             self.pub.publish(twist)
             rate.sleep()
+
+    

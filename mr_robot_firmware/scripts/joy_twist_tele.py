@@ -2,14 +2,13 @@
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
-from ascii import welcome
-from termcolor import colored
+
 
 colors = ['red', 'green', 'cyan', 'blue', 'magenta']
 
 class TwistJoy:
     def __init__(self):        
-        rospy.init_node('Joy2Turtle')
+        rospy.init_node('Joy2Twist')
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)    
         rospy.Subscriber("/joy", Joy, self.callback)    
         self.axes=0
@@ -52,16 +51,16 @@ class TwistJoy:
 
             elif self.down == -1:
                 self.fac1 -= 0.05
-                rospy.loginfo("Robot X = %f: Robot Z=%f\n",self.fac1,self.fac2)
+                rospy.loginfo("Linear = %f: Angular =%f\n",self.fac1,self.fac2)
 
 
             if self.left == 1:
                 self.fac2 += 0.05
-                rospy.loginfo("Robot X = %f: Robot Z=%f\n",self.fac1,self.fac2)
+                rospy.loginfo("Linear = %f: Angular =%f\n",self.fac1,self.fac2)
 
             elif self.right == -1:
                 self.fac2 -= 0.05
-                rospy.loginfo("Robot X = %f: Robot Z=%f\n",self.fac1,self.fac2)
+                rospy.loginfo("Linear = %f: Angular =%f\n",self.fac1,self.fac2)
 
 
             twist.linear.x = self.fac1*self.aL

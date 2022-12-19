@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <launch>
-    <machine name="pi" address="192.168.1.68" password="raspberry" env-loader="~/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
+    <machine name="pi" address="192.168.0.121" password="raspberry" env-loader="~/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
     <include file="$(find ydlidar_ros)/launch/X2L.launch" />
 
     <arg default="$(find mr_robot_firmware)/config/rviz.rviz" name="rvizconfig"/>

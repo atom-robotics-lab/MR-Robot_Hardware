@@ -33,10 +33,10 @@ class TwistJoy:
         self.aR = self.axes[0]
         self.R1 = self.buttons[5]
         self.L1 = self.buttons[4]
-        self.up = self.axes[6]
-        self.down = self.axes[6]
-        self.left = self.axes[5]
-        self.right = self.axes[5]
+        self.up = self.axes[7]
+        self.down = self.axes[7]
+        self.left = self.axes[6]
+        self.right = self.axes[6]
         
 
 
@@ -74,4 +74,7 @@ class TwistJoy:
             self.pub.publish(twist)
             rate.sleep()
 
-    
+
+if __name__ == "__main__":
+    TJ = TwistJoy()
+    rospy.spin()

@@ -4,9 +4,6 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Int32
 from sensor_msgs.msg import Joy
 
-
-colors = ['red', 'green', 'cyan', 'blue', 'magenta']
-
 class PWMJoy:
     def __init__(self):        
         rospy.init_node('Joy2PWM')
@@ -41,12 +38,12 @@ class PWMJoy:
         self.buttons = data.buttons
         self.fb1 = data.axes[1]
         self.lr1 = data.axes[0]
-        self.fb2 = data.axes[2]
+        self.fb2 = data.axes[4]
         self.lr2 = data.axes[3]
-        self.up = self.axes[6]
-        self.down = self.axes[6]
-        self.left = self.axes[5]
-        self.right = self.axes[5]
+        self.up = self.axes[7]
+        self.down = self.axes[7]
+        self.left = self.axes[6]
+        self.right = self.axes[6]
         
         
 
@@ -94,3 +91,6 @@ class PWMJoy:
             
             rate.sleep()
 
+if __name__ == "__main__":
+    PJ = PWMJoy()
+    rospy.spin()

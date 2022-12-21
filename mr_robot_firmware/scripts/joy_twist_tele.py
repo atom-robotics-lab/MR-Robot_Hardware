@@ -17,8 +17,8 @@ class TwistJoy:
         self.aR=0
         self.L1 = 0
         self.R1 = 0
-        self.fac1 = 1
-        self.fac2 = 1
+        self.fac1 = 2
+        self.fac2 = 10
         self.up = 0
         self.down = 0
         self.left = 0

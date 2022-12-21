@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   cv_bridge
+  tf
 )
 find_package(OpenCV)
 
@@ -210,7 +211,10 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-=======
-#add_executable(odom_pub src/ekf_odom_pub.cpp)
-add_executable(pi_cam_pub src/pi_cam_pub.cpp)
-target_link_libraries(pi_cam_pub ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(ekf_odom_pub src/ekf_odom_pub.cpp)
+target_link_libraries(ekf_odom_pub ${catkin_LIBRARIES})
+
+# add_executable(pi_cam_pub src/pi_cam_pub.cpp)
+# target_link_libraries(pi_cam_pub ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+INCLUDE_DIRECTORIES(/usr/local/lib)
+LINK_DIRECTORIES(/usr/local/lib)

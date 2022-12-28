@@ -226,6 +226,3 @@ if __name__ == '__main__':
     """ main """
     diffTf = DiffTf()
     diffTf.spin()
-    
-    
-   

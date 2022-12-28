@@ -1,5 +1,5 @@
 <launch>
-  <machine name="pi" address="192.168.0.100" password="raspberry" env-loader="/home/pi/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
+  <machine name="pi" address="192.168.0.108" password="raspberry" env-loader="/home/pi/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
 
   <node machine="pi" name="ydlidar_node"  pkg="ydlidar_ros"  type="ydlidar_node" output="screen" respawn="false" >
     <param name="port"         type="string" value="/dev/ttyUSB_LIDAR"/>  
@@ -17,6 +17,6 @@
     <param name="samp_rate"    type="int"    value="3"/>
     <param name="isSingleChannel"    type="bool"   value="true"/>
   </node>
-  <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser4"
-    args="0.2245 0.0 0.2 0.0 0.0  0.0 /base_link /laser_frame 40" /> -->
+  <!-- <node machine="pi" pkg="tf" type="static_transform_publisher" name="base_link_to_laser4"
+    args="0.0967 -0.001759 0.108682 0.0 0.0  0.0 /base_link /laser_frame 40" /> -->
 </launch>

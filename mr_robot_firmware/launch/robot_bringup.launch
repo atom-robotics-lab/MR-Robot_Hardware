@@ -39,7 +39,7 @@
         <param name="gps_used" value="false"/>
         <param name="debug" value="false"/>
         <param name="self_diagnose" value="false"/>
-  </node>
+    </node>
     
     <arg default="$(find mr_robot_firmware)/config/rviz.rviz" name="rvizconfig"/>
     <node args="-d $(arg rvizconfig)" name="rviz" pkg="rviz" required="true" type="rviz"/>

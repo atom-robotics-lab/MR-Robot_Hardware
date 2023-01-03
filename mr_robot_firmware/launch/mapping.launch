@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <include file="$(find mr_robot_firmware)/launch/robot_bringup.launch" />
+    <node name="mr_map" pkg="gmapping" type="slam_gmapping" />
+</launch>

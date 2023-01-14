@@ -2,7 +2,7 @@
 
 <launch>
 				
-	<node name="diff_drive" pkg="mr_robot_firmware" type="diff.py" output="screen"/>
+	<node name="diff_drive" pkg="mr_robot_firmware" type="pi_diff.py" output="screen"/>
 
     <node name="pi_cam_pub" pkg="mr_robot_firmware" type="pi_cam_pub" output="screen"/>
 

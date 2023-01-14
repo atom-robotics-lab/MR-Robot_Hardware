@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/noemoji041/auto_catkin/devel/lib/python3/dist-packages",
+        "/home/noemoji041/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/noemoji041/auto_catkin/devel/lib/python3/dist-packages",
+        "/home/noemoji041/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
+}

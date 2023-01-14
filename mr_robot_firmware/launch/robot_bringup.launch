@@ -1,21 +1,48 @@
 <?xml version="1.0" ?>
 
 <launch>
-
-    <!-- <include file="$(find ydlidar_ros)/launch/X2L.launch" /> -->
-
+    <machine name="pi" address="192.168.0.112" password="raspberry" env-loader="/home/pi/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
+    <include file="$(find ydlidar_ros)/launch/X2L.launch" />
+     
     <param command="$(find xacro)/xacro $(find mr_robot_description)/urdf/mr_robot.xacro" name="robot_description"/>
+     <rosparam file="$(find mr_robot_firmware)/config/mr_robot_firmware.yaml" command="load" />
 
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <node machine="pi" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node machine="pi" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    
+    <node machine="pi" name="imu" pkg="mpu_6050_driver" type="imu_node.py"/>
+    <!-- <node  name="imu2" pkg="imu_complementary_filter" type="complementary_filter_node"/> -->
+    <node  name="imu3" pkg="mpu_6050_driver" type="tf_broadcaster_imu.py"/>
 
-    <!-- <include file="$(find simbha_control)/launch/ekf.launch" /> -->
-    				
-	<node name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
+    <node machine="pi" name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB_ESP 57600"/>
+    <node machine="pi" name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
+    <node machine="pi" name="odom_pub" pkg="mr_robot_firmware" type="ekf_odom_pub"/>
 
-    <node name="odom_pub" pkg="mr_robot_firmware" type="diff_tf.py"/>
 
-	<!-- <node name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB0 57600"/> -->
+    <node name="joy1" pkg="joy" type="joy_node"	/>
+    <!-- <node name="joy_py"	pkg="mr_robot_firmware" type="joy_twist_tele.py"/>	 -->
+    <node name = "tele_py" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" />
+    <!-- <node machine="pi" pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params ="true" >
+        <rosparam file="$(find mr_robot_firmware)/config/ekf.yaml" command="load" />
+    </node> -->
+
+    <remap from="odom" to="odom_data_quat" />
+    <remap from="imu/data_raw" to="imu/data" />
+    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+        <param name="output_frame" value="odom"/>
+        <param name="base_footprint_frame" value="base_link"/>
+        <param name="freq" value="30.0"/>
+        <param name="sensor_timeout" value="1.0"/>
+        <param name="odom_used" value="true"/>
+        <param name="imu_used" value="true"/>
+        <param name="vo_used" value="false"/>
+        <param name="gps_used" value="false"/>
+        <param name="debug" value="false"/>
+        <param name="self_diagnose" value="false"/>
+    </node>
+    
+    <arg default="$(find mr_robot_firmware)/config/rviz.rviz" name="rvizconfig"/>
+    <node args="-d $(arg rvizconfig)" name="rviz" pkg="rviz" required="true" type="rviz"/>
 
 
 </launch>

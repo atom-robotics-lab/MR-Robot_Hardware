@@ -27,11 +27,13 @@ class DifferentialDriver :
 
     def params_setup(self) :
         
-        self.motor_rpm = 100
-        self.wheel_diameter = 6.5/100
-        self.wheel_separation = 24.5/100
-        self.max_pwm_val = 255
-        self.min_pwm_val = -255
+        self.motor_rpm = rospy.get_param("mr_robot_firmware/motor_rpm")
+        self.wheel_diameter = rospy.get_param("mr_robot_firmware/wheel_diameter")
+        self.wheel_diameter = self.wheel_diameter/100
+        self.wheel_separation = rospy.get_param("mr_robot_firmware/wheel_diameter")
+        self.wheel_separation = self.wheel_separation/100
+        self.max_pwm_val = rospy.get_param("mr_robot_firmware/twist_max_pwm")
+        self.min_pwm_val = rospy.get_param("mr_robot_firmware/twist_min_pwm")
           
 
     def stop( self ):

@@ -1,11 +1,28 @@
 
 #include <ros.h>
 #include <std_msgs/Int32.h>
+#define SAMPLE_DELAY (1000)   //  this gets 1 reading per second.
+                              //  adjust the delay to fit your needs
+#define PULSES_PER_TURN (32)  //  32 state changes per turn on 1 line, 
+unsigned int pulseCountL;
+bool lastStateL;
+unsigned int lastTimeL; 
+float rpmL;
+float rpmL_error;  
+float rpmR_error;  
+
+unsigned int pulseCountR;
+bool lastStateR;
+unsigned int lastTimeR; 
+float rpmR;  
 
 ros::NodeHandle nh;
 
 std_msgs::Int32 encoder_msg_left;
 std_msgs::Int32 encoder_msg_right;
+
+std_msgs::Int32 encoder_msg_left_error;
+std_msgs::Int32 encoder_msg_right_error;
 
 std_msgs::Int32 pwm_left;
 std_msgs::Int32 pwm_right;
@@ -20,6 +37,9 @@ const int resolution = 8;
 
 ros::Publisher left_enc_pub("left_encoder", &encoder_msg_left);
 ros::Publisher right_enc_pub("right_encoder", &encoder_msg_right);
+ros::Publisher left_enc_error("left_encoder_error", &encoder_msg_left_error);
+ros::Publisher right_enc_error("right_encoder_error", &encoder_msg_right_error);
+
 
 //pins are changed as per esp32
 int encoderLPin1 = 13;
@@ -71,6 +91,7 @@ void updateEncoder_R();
 void updateEncoder_L();
 
 void LpwmCb(const std_msgs::Int32& pwm){
+
   if(pwm.data == 0) { ledcWrite(ledChannel1, 0); ledcWrite(ledChannel2, 0); }
   if(pwm.data > 0)  { ledcWrite(ledChannel1, abs(pwm.data)); ledcWrite(ledChannel2, 0); }
   if(pwm.data < 0)  { ledcWrite(ledChannel1, 0); ledcWrite(ledChannel2, abs(pwm.data));}
@@ -92,6 +113,8 @@ void setup() {
   
   nh.advertise(left_enc_pub);
   nh.advertise(right_enc_pub);
+  nh.advertise(left_enc_error);
+  nh.advertise(right_enc_error);
 
   nh.subscribe(Lpwm_sub);
   nh.subscribe(Rpwm_sub);
@@ -101,7 +124,7 @@ void setup() {
   ledcSetup(ledChannel3, freq, resolution);
   ledcSetup(ledChannel4, freq, resolution);
 
-  //Serial.begin (9600);
+  //Serial.begin (57600);
 
   pinMode(encoderLPin1, INPUT_PULLUP); 
   pinMode(encoderLPin2, INPUT_PULLUP);
@@ -116,6 +139,8 @@ void setup() {
   ledcAttachPin(RForward,      ledChannel3);
   ledcAttachPin(RBackward,     ledChannel4);
 
+  lastStateL = digitalRead(encoderLPin1);
+  lastStateR = digitalRead(encoderRPin1);
 
   //call updateEncoder_R() when any high/low changed seen
 
@@ -135,6 +160,13 @@ void publish_encoder_data()
 
   encoder_msg_right.data = encoderValue_R;
   right_enc_pub.publish(&encoder_msg_right);
+
+    encoder_msg_left_error.data = rpmL_error;
+  left_enc_error.publish(&encoder_msg_left_error);
+
+  encoder_msg_right_error.data = rpmR_error;
+  right_enc_error.publish(&encoder_msg_right_error);
+
 }
 
 void loop(){  
@@ -144,6 +176,37 @@ void loop(){
   Serial.print("     ");
   
   Serial.println(encoderValue_R);*/
+  bool curStateL = digitalRead(encoderLPin1);
+  bool curStateR = digitalRead(encoderRPin1);
+
+    if (curStateL != lastStateL)
+    {
+        ++pulseCountL;
+        lastStateL = curStateL;
+    }
+    if (curStateR != lastStateR)
+    {
+        ++pulseCountR;
+        lastStateR = curStateR;
+    }
+
+    if ((unsigned int)millis() - lastTimeL >= SAMPLE_DELAY)  
+    {
+         rpmL = (pulseCountL * (60000.f / ((unsigned int)millis() - lastTimeL))) / PULSES_PER_TURN;
+         pulseCountL = 0;
+         lastTimeL = (unsigned int)millis();
+    }
+        if ((unsigned int)millis() - lastTimeR >= SAMPLE_DELAY)  
+    {
+         rpmR = (pulseCountR * (60000.f / ((unsigned int)millis() - lastTimeR))) / PULSES_PER_TURN;
+         pulseCountR = 0;
+         lastTimeR = (unsigned int)millis();
+    }
+
+
+
+    rpmL_error=100-rpmL;
+    rpmR_error=100-rpmR;
 
   publish_encoder_data();
 

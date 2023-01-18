@@ -12,8 +12,8 @@ class DifferentialDriver :
 
         rospy.init_node('cmdvel_listener', anonymous=False)
         rospy.Subscriber("/cmd_vel", Twist, self.callback)
-        rospy.Subscriber("left_speed", Twist, self.update_left)
-        rospy.Subscriber("right_speed", Twist, self.update_right)
+        rospy.Subscriber("left_speed", Int32, self.update_left)
+        rospy.Subscriber("right_speed", Int32, self.update_right)
 
         self.left_pwm_pub = rospy.Publisher('left_pwm', Int32, queue_size=10)
         self.right_pwm_pub = rospy.Publisher('right_pwm', Int32, queue_size=10)
@@ -25,12 +25,9 @@ class DifferentialDriver :
         self.wheel_radius = self.wheel_diameter/2
         self.circumference_of_wheel = 2 * pi * self.wheel_radius
         self.max_speed = (self.circumference_of_wheel*self.motor_rpm)/60   # m/sec
-        self.left_vel = 0
-        self.right _vel = 0
         self.right_vel_actual = 0
         self.left_vel_actual = 0
-        self.lspeedPWM = 0
-        self.rspeedPWM = 0
+        self.kp = 0.5
 
 
     def params_setup(self) :
@@ -45,14 +42,10 @@ class DifferentialDriver :
 
     def update_left(self, speed):
         self.left_vel_actual = speed.data
-        error = self.left_vel_actual - self.left_vel
-        self.lspeedPWM = error*self.kp
 
 
     def update_right(self, speed):
         self.right_vel_actual = speed.data
-        error = self.left_vel_actual - self.left_vel
-        self.rspeedPWM = error*self.kp
 
 
          
@@ -65,19 +58,25 @@ class DifferentialDriver :
         self.rspeedPWM = max(min((right_speed/self.max_speed)*self.max_pwm_val,self.max_pwm_val), self.min_pwm_val)
 
         return self.lspeedPWM, self.rspeedPWM
-    
+
+    def correct_pwm(left_vel, right_vel, pwm_left, pwl_right):
+        r_error = self.right_vel_actual - right_vel
+        l_error = self.left_vel_actual - left_vel
+        pwm_left = pwm_left + l_error*self.kp
+        pwm_right = pwm_right + r_error*self.kp
+
     def callback(self, data):  
 
         linear_vel = data.linear.x                                              # Linear Velocity of Robot
         angular_vel = data.angular.z                                            # Angular Velocity of Robot
 
-        self.right_vel = linear_vel + (angular_vel * self.wheel_separation) / 2      # right wheel velocity
-        self.left_vel  = linear_vel - (angular_vel * self.wheel_separation) / 2      # left wheel velocity
+        right_vel = linear_vel + (angular_vel * self.wheel_separation) / 2      # right wheel velocity
+        left_vel  = linear_vel - (angular_vel * self.wheel_separation) / 2      # left wheel velocity
 
         print(" Left Velocity = {}  |   Right Velocity = {}  |   Left Actual = {}    |   Right Actual = {}".format(left_vel, right_vel, self.left_vel_actual, self.right_vel_actual))
         
         left_pwm_data , right_pwm_data = self.get_pwm(left_vel, right_vel)
-
+        left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
         #print(left_pwm_data) 
         #print(right_pwm_data) 
 

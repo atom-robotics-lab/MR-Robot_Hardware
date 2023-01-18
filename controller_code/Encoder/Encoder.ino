@@ -57,31 +57,6 @@ int RPWM = 5;
 
 int standby = 25;
 
-
-//*****************************************************************
-
-
-// FastLED "100-lines-of-code" demo reel, showing just a few 
-// of the kinds of animation patterns you can quickly and easily 
-// compose using FastLED.  
-//
-// This example also shows one easy way to define multiple 
-// animations patterns and have them automatically rotate.
-//
-// -Mark Kriegsman, December 2014
-
-
-#define DATA_PIN    23
-//#define CLK_PIN   4
-#define LED_TYPE    WS2811
-#define COLOR_ORDER GRB
-#define NUM_LEDS    6
-
-#define BRIGHTNESS          255
-#define FRAMES_PER_SECOND  120
-
-//*******************************************************************
-
 volatile int lastEncoded_L = 0;
 volatile long encoderValue_L = 0;
 volatile int lastEncoded_R = 0;
@@ -171,48 +146,10 @@ void publish_encoder_data()
 
 void loop(){  
 
-  /*Serial.print(encoderValue_L);
-
-  Serial.print("     ");
-  
-  Serial.println(encoderValue_R);*/
-  bool curStateL = digitalRead(encoderLPin1);
-  bool curStateR = digitalRead(encoderRPin1);
-
-    if (curStateL != lastStateL)
-    {
-        ++pulseCountL;
-        lastStateL = curStateL;
-    }
-    if (curStateR != lastStateR)
-    {
-        ++pulseCountR;
-        lastStateR = curStateR;
-    }
-
-    if ((unsigned int)millis() - lastTimeL >= SAMPLE_DELAY)  
-    {
-         rpmL = (pulseCountL * (60000.f / ((unsigned int)millis() - lastTimeL))) / PULSES_PER_TURN;
-         pulseCountL = 0;
-         lastTimeL = (unsigned int)millis();
-    }
-        if ((unsigned int)millis() - lastTimeR >= SAMPLE_DELAY)  
-    {
-         rpmR = (pulseCountR * (60000.f / ((unsigned int)millis() - lastTimeR))) / PULSES_PER_TURN;
-         pulseCountR = 0;
-         lastTimeR = (unsigned int)millis();
-    }
-
-
-
-    rpmL_error=100-rpmL;
-    rpmR_error=100-rpmR;
-
   publish_encoder_data();
 
   nh.spinOnce();
 
- 
   }
 
 

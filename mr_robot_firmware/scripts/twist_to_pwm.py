@@ -12,6 +12,8 @@ class DifferentialDriver :
 
         rospy.init_node('cmdvel_listener', anonymous=False)
         rospy.Subscriber("/cmd_vel", Twist, self.callback)
+        rospy.Subscriber("left_speed", Twist, self.update_left)
+        rospy.Subscriber("right_speed", Twist, self.update_right)
 
         self.left_pwm_pub = rospy.Publisher('left_pwm', Int32, queue_size=10)
         self.right_pwm_pub = rospy.Publisher('right_pwm', Int32, queue_size=10)
@@ -23,6 +25,8 @@ class DifferentialDriver :
         self.wheel_radius = self.wheel_diameter/2
         self.circumference_of_wheel = 2 * pi * self.wheel_radius
         self.max_speed = (self.circumference_of_wheel*self.motor_rpm)/60   # m/sec
+        self.left_vel = 0
+        self.right _vel = 0
 
 
     def params_setup(self) :
@@ -34,6 +38,13 @@ class DifferentialDriver :
         self.wheel_separation = self.wheel_separation/100
         self.max_pwm_val = rospy.get_param("mr_robot_firmware/twist_max_pwm")
         self.min_pwm_val = rospy.get_param("mr_robot_firmware/twist_min_pwm")
+
+    def update_left(self, speed):
+        self.left_vel_actual = speed.data
+
+    def update_right(self, speed):
+        self.right_vel_actual = speed.data
+        
           
 
     def stop( self ):
@@ -53,6 +64,8 @@ class DifferentialDriver :
 
         right_vel = linear_vel + (angular_vel * self.wheel_separation) / 2      # right wheel velocity
         left_vel  = linear_vel - (angular_vel * self.wheel_separation) / 2      # left wheel velocity
+
+        print(" Left Velocity = {}  |   Right Velocity  |   Left Actual = {}    |   Right Actual = {}".format(left_vel, left_vel, self.right_vel_actual, self.right_vel_actual))
         
         left_pwm_data , right_pwm_data = self.get_pwm(left_vel, right_vel)
 

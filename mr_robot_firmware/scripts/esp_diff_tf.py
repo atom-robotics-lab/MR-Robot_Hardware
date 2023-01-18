@@ -106,13 +106,16 @@ class DiffTf:
         self.dx = 0                 # speeds in x/rotation
         self.dr = 0
         self.then = rospy.Time.now()
+        self.left_speed = 0
+        self.right_speed = 0
         
         # subscriptions
         rospy.Subscriber("left_encoder", Int32, self.lwheelCallback)
         rospy.Subscriber("right_encoder", Int32, self.rwheelCallback)
         rospy.Subscriber("initialpose", PoseWithCovarianceStamped, self.update_pose)
         self.odomPub = rospy.Publisher("odom", Odometry,queue_size=10)
-        self.odomPub = rospy.Publisher("odom", Odometry,queue_size=10)
+        self.left_speed_pub = rospy.Publisher("left_speed", Int32,queue_size=10)
+        self.right_speed_pub = rospy.Publisher("right_speed", Int32,queue_size=10)
         self.odomBroadcaster = TransformBroadcaster()
 
 
@@ -151,6 +154,14 @@ class DiffTf:
             else:
                 d_left = (self.left - self.enc_left) / self.ticks_meter
                 d_right = (self.right - self.enc_right) / self.ticks_meter
+
+            # calculate the velocity of the 2 wheels
+            self.left_speed = self.left / elapsed
+            self.right_speed = self.right / elapsed
+
+            self.left_speed_pub.publish(self.left_speed)
+            self.right_speed_pub.publish(self.right_speed)
+
             self.enc_left = self.left
             self.enc_right = self.right
            

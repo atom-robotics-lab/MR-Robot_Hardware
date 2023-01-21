@@ -59,11 +59,14 @@ class DifferentialDriver :
 
         return self.lspeedPWM, self.rspeedPWM
 
-    def correct_pwm(self, left_vel, right_vel, pwm_left, pwl_right):
-        r_error = right_vel - self.right_vel_actual
-        l_error =  left_vel - self.left_vel_actual 
-        pwm_left = pwm_left + l_error*self.kp
-        pwm_right = pwm_right + r_error*self.kp
+    def correct_pwm(self, left_vel, right_vel, pwm_left, pwm_right):
+        try:
+            r_error = right_vel - self.right_vel_actual
+            l_error =  left_vel - self.left_vel_actual 
+            pwm_left = pwm_left + l_error*self.kp
+            pwm_right = pwm_right + r_error*self.kp
+        except:
+            pass
 
     def callback(self, data):  
 
@@ -76,7 +79,10 @@ class DifferentialDriver :
         print(" Left Velocity = {}  |   Right Velocity = {}  |   Left Actual = {}    |   Right Actual = {}".format(left_vel, right_vel, self.left_vel_actual, self.right_vel_actual))
         
         left_pwm_data , right_pwm_data = self.get_pwm(left_vel, right_vel)
-        # left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
+        try:
+            left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
+        except:
+            pass
         #print(left_pwm_data) 
         #print(right_pwm_data) 
 

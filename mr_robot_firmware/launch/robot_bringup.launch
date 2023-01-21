@@ -15,8 +15,8 @@
     <node  name="imu3" pkg="mpu_6050_driver" type="tf_broadcaster_imu.py"/>
 
     <node machine="pi" name="ros_serial" pkg="rosserial_arduino" type="serial_node.py" output="screen" args="/dev/ttyUSB_ESP 57600"/>
-    <!-- <node machine="pi" name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/> -->
-    <!-- <node machine="pi" name="odom_pub" pkg="mr_robot_firmware" type="esp_diff_tf.py"/> -->
+    <node name="diff_drive" pkg="mr_robot_firmware" type="twist_to_pwm.py" output="screen"/>
+    <node name="odom_pub" pkg="mr_robot_firmware" type="esp_diff_tf.py"/>
 
 
     <node name="joy1" pkg="joy" type="joy_node"	/>

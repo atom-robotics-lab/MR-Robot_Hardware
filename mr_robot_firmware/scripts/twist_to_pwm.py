@@ -59,9 +59,9 @@ class DifferentialDriver :
 
         return self.lspeedPWM, self.rspeedPWM
 
-    def correct_pwm(left_vel, right_vel, pwm_left, pwl_right):
-        r_error = self.right_vel_actual - right_vel
-        l_error = self.left_vel_actual - left_vel
+    def correct_pwm(self, left_vel, right_vel, pwm_left, pwl_right):
+        r_error = right_vel - self.right_vel_actual
+        l_error =  left_vel - self.left_vel_actual 
         pwm_left = pwm_left + l_error*self.kp
         pwm_right = pwm_right + r_error*self.kp
 

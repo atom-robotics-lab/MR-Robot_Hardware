@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import Twist
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32, Float64
 import time
 from math import pi
 
@@ -12,8 +12,8 @@ class DifferentialDriver :
 
         rospy.init_node('cmdvel_listener', anonymous=False)
         rospy.Subscriber("/cmd_vel", Twist, self.callback)
-        rospy.Subscriber("left_speed", Int32, self.update_left)
-        rospy.Subscriber("right_speed", Int32, self.update_right)
+        rospy.Subscriber("left_speed", Float64, self.update_left)
+        rospy.Subscriber("right_speed", Float64, self.update_right)
 
         self.left_pwm_pub = rospy.Publisher('left_pwm', Int32, queue_size=10)
         self.right_pwm_pub = rospy.Publisher('right_pwm', Int32, queue_size=10)
@@ -76,7 +76,7 @@ class DifferentialDriver :
         print(" Left Velocity = {}  |   Right Velocity = {}  |   Left Actual = {}    |   Right Actual = {}".format(left_vel, right_vel, self.left_vel_actual, self.right_vel_actual))
         
         left_pwm_data , right_pwm_data = self.get_pwm(left_vel, right_vel)
-        left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
+        # left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
         #print(left_pwm_data) 
         #print(right_pwm_data) 
 

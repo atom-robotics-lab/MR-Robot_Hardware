@@ -61,7 +61,7 @@ from geometry_msgs.msg import Twist
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
-from std_msgs.msg import Int16, Int32
+from std_msgs.msg import Int16, Int32, Float64
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 #############################################################################
@@ -114,8 +114,8 @@ class DiffTf:
         rospy.Subscriber("right_encoder", Int32, self.rwheelCallback)
         rospy.Subscriber("initialpose", PoseWithCovarianceStamped, self.update_pose)
         self.odomPub = rospy.Publisher("odom", Odometry,queue_size=10)
-        self.left_speed_pub = rospy.Publisher("left_speed", Int32,queue_size=10)
-        self.right_speed_pub = rospy.Publisher("right_speed", Int32,queue_size=10)
+        self.left_speed_pub = rospy.Publisher("left_speed", Float64,queue_size=10)
+        self.right_speed_pub = rospy.Publisher("right_speed", Float64,queue_size=10)
         self.odomBroadcaster = TransformBroadcaster()
 
 
@@ -159,8 +159,11 @@ class DiffTf:
             self.left_speed = self.left / elapsed
             self.right_speed = self.right / elapsed
 
-            self.left_speed_pub.publish(self.left_speed)
-            self.right_speed_pub.publish(self.right_speed)
+            # print(d_left)
+            # print(self.right_speed)
+
+            self.left_speed_pub.publish(float(d_left))
+            self.right_speed_pub.publish(float(d_right))
 
             self.enc_left = self.left
             self.enc_right = self.right

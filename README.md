@@ -105,7 +105,7 @@ Use This command to identify port and characters after "usb"
 ```shell
 dmesg | grep ttyUSB
 ```
-<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/param/assets/usb.png" >
+<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/main/assets/usb.png" >
 
 For creating the link from USB ports to the devices:-
 
@@ -117,7 +117,7 @@ sudo nano /etc/udev/rules.d/10-usb-serial.rules
 SUBSYSTEM=="tty", KERNELS=="1-1.4", SYMLINK+="ttyUSB_ESP"
 SUBSYSTEM=="tty", KERNELS=="1-1.1", SYMLINK+="ttyUSB_LIDAR"
 ```
-<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/param/assets/file.png" >
+<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/main/assets/file.png" >
 
 For loading the new rules:-
 
@@ -131,7 +131,7 @@ By running the next command in the Terminal, you may verify the new names you ju
 ls -l /dev/ttyUSB*
 ```
 
-<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/param/assets/list.png" >
+<img src = "https://github.com/atom-robotics-lab/MR-Robot_Hardware/blob/main/assets/list.png" >
 
 # LAUNCHING LIDAR
 

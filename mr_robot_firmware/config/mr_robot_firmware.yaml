@@ -1,7 +1,7 @@
 mr_robot_firmware :
   motor_rpm : 100  
-  wheel_diameter : 0.095
-  wheel_separation : 0.23
+  wheel_diameter : 0.12
+  wheel_separation : 0.22
   max_pwm_val : 100 
   min_pwm_val : 30
   twist_max_pwm : 180
@@ -12,7 +12,7 @@ mr_robot_firmware :
   rightB : 20
   rate : 10.0
   ticks_meter : 6550
-  base_width : 0.20
+  base_width : 0.38
   base_frame_id : 'base_link'
   odom_frame_id : 'odom'
   # encoder_min : -2147483648

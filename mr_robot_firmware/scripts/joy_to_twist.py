@@ -16,8 +16,8 @@ class TwistJoy:
         self.buttons=0
         self.aL=0
         self.aR=0
-        self.L1 = 0
-        self.R1 = 0
+        self.L2 = 0
+        self.R2 = 0
         self.fac1 = 2
         self.fac2 = 10
         self.up = 0
@@ -44,7 +44,7 @@ class TwistJoy:
 
 
     def motor_control(self):
-        self.vel.linear.x = abs((0.5*(self.R2+1)-1)) * self.max_linear - abs((0.5*(self.L1+1)-1)) * self.max_linear
+        self.vel.linear.x = abs((0.5*(self.R2+1)-1)) * self.max_linear - abs((0.5*(self.L2+1)-1)) * self.max_linear
         self.vel.angular.z = self.joyL * self.max_angular
 
         if self.ak_up_down == 1.0:

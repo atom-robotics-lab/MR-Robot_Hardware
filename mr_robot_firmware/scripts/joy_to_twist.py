@@ -18,28 +18,33 @@ class TwistJoy:
         self.ak_left_right=0
         self.joyL = 0
         self.R2 = 0
-        self.L2 = 2
+        self.L2 = 0
         self.max_linear = 1
         self.max_angular = 1
-        self.increament = 0.5
+        self.increament = 0.1
         self.motor_control()
 
 
     def callback(self,data):    
         self.axes = data.axes
         self.buttons = data.buttons
-        self.ak_up_down = self.buttons[7]
-        self.ak_left_right = self.buttons[6]
+        self.ak_up_down = self.axes[7]
+        self.ak_left_right = self.axes[6]
         self.joyL = self.axes[0]
-        self.R2 = self.axes[6]
+        self.R2 = self.axes[5]
         self.L2 = self.axes[2]
         self.motor_control()
         
+    def map_range(self, x, in_min, in_max, out_min, out_max):
+      return ((x - in_min) * (out_max - out_min) /(in_max - in_min)) + out_min
 
 
     def motor_control(self):
-        self.vel.linear.x = abs((0.5*(self.R2+1)-1)) * self.max_linear - abs((0.5*(self.L2+1)-1)) * self.max_linear
-        self.vel.angular.z = self.joyL * self.max_angular
+        forward = self.map_range(-1*self.R2, -1, 1, 0, 1)
+        backward = self.map_range(-1*self.L2, -1, 1, 0, 1)
+        #print("forward: {}  backward: {}".format(forward, backward))
+        self.vel.linear.x = (forward * self.max_linear) - (backward * self.max_linear)
+        self.vel.angular.z = self.joyL * self.max_angular * 1 
 
         if self.ak_up_down == 1.0:
             self.max_linear = self.max_linear + self.increament
@@ -48,13 +53,12 @@ class TwistJoy:
             self.max_linear = self.max_linear - self.increament
         
         if self.ak_left_right == 1.0:
-            self.max_angular = self.max_linear + self.increament
+            self.max_angular = self.max_angular + self.increament
         
         if self.ak_left_right == -1.0:
-            self.max_angular = self.max_linear - self.increament
+            self.max_angular = self.max_angular - self.increament
 
-        print("Linear: {}".format(self.vel.linear.x))
-        print("Angular: {}" .format(self.vel.angular.z))
+        print("Linear: {}   Angular: {}     max_linear: {}      min_linear: {}".format(self.vel.linear.x, self.vel.angular.z,   self.max_linear,    self.max_angular))
 
         self.pub.publish(self.vel)
         

@@ -1,11 +1,13 @@
+#!/usr/bin/env python3
 import Adafruit_PCA9685
 import time
 import rospy
+from sensor_msgs.msg import Joy
 
 class servo_Class:
     #"Channel" is the channel for the servo motor on PCA9685
     #"ZeroOffset" is a parameter for adjusting the reference position of the servo motor
-    def init(self, Channel, ZeroOffset):
+    def __init__(self, Channel, ZeroOffset):
         self.buttons = []
         self.Channel = Channel
         self.ZeroOffset = ZeroOffset
@@ -36,32 +38,45 @@ class servo_Class:
         drop_btn = self.buttons[1] 
 
 if __name__ == '__main__':
-    servo_class = servo_Class()
-    rospy.init_node('arm_control')
-    rospy.Subscriber("/joy", Joy, servo_class.callback)
-
-    
+	
+    pick_btn = 0
+    travel_btn = 0
+    drop_btn = 0
+    left_btn = 0   
+    right_btn = 0
+ 
     Servo0 = servo_Class(Channel=0, ZeroOffset=0)
     Servo1 = servo_Class(Channel=1, ZeroOffset=0)
     Servo2 = servo_Class(Channel=2, ZeroOffset=0)
+    
+    rospy.init_node('arm_control')
+    rospy.Subscriber("/joy", Joy, Servo0.callback)
 
+    count = 0
 
+    while not rospy.is_shutdown():
+        if pick_btn == 1:
+            Servo0.SetPos(10)
+            Servo2.SetPos(60)
+            print("pick")
+            Servo0.Cleanup()
+            Servo2.Cleanup()
+        if travel_btn == 1:
+            Servo0.SetPos(10)
+            Servo2.SetPos(21)
+            print("travel")
+            Servo0.Cleanup()
+            Servo2.Cleanup()
+        if drop_btn == 1:
+            Servo0.SetPos(50)
+            Servo2.SetPos(50)
+            print("drop")
+            Servo0.Cleanup()
+            Servo2.Cleanup()
 
-    try:
-        while True:
-
-            if left_btn == 1:
-                servo_class.SetPos(90)
-            if right_btn == 1:
-                servo_class.SetPos(110)
-            if travel_btn == 1:
-                servo_class.SetPos(10)
-
-    except KeyboardInterrupt:
-        print("\nCtl+C")
-    except Exception as e:
-        print(str(e))
-    finally:
-        Servo0.Cleanup()
-
-        print("\nexit program")
+        if left_btn == 1:
+            Servo1.SetPos(160)
+            Servo1.Cleanup()
+        if right_btn == 1:
+            Servo1.SetPos(90)
+            Servo1.Cleanup()

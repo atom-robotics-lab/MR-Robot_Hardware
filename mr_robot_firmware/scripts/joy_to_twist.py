@@ -14,17 +14,11 @@ class TwistJoy:
         self.vel = Twist()
         self.axes=0
         self.buttons=0
-        self.aL=0
-        self.aR=0
-        self.L2 = 0
+        self.ak_up_down=0
+        self.ak_left_right=0
+        self.joyL = 0
         self.R2 = 0
-        self.fac1 = 2
-        self.fac2 = 10
-        self.up = 0
-        self.down = 0
-        self.left = 0
-        self.right = 0
-        self.max_speed = 10
+        self.L2 = 2
         self.max_linear = 1
         self.max_angular = 1
         self.increament = 0.5
@@ -59,10 +53,10 @@ class TwistJoy:
         if self.ak_left_right == -1.0:
             self.max_angular = self.max_linear - self.increament
 
-        print("Linear: " + self.vel.linear.x)
-        print("Angular: " + self.vel.angular.z)
+        print("Linear: {}".format(self.vel.linear.x))
+        print("Angular: {}" .format(self.vel.angular.z))
 
-        self.vel.publish()
+        self.pub.publish(self.vel)
         
 
 

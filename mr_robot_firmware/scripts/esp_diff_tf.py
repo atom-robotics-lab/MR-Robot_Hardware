@@ -58,9 +58,11 @@ from math import sin, cos, pi
 
 from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import Twist
+from geometry_msgs.msg import PoseWithCovarianceStamped
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
-from std_msgs.msg import Int16, Int32
+from std_msgs.msg import Int16, Int32, Float64
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 #############################################################################
 class DiffTf:
@@ -104,13 +106,28 @@ class DiffTf:
         self.dx = 0                 # speeds in x/rotation
         self.dr = 0
         self.then = rospy.Time.now()
+        self.left_speed = 0
+        self.right_speed = 0
         
         # subscriptions
         rospy.Subscriber("left_encoder", Int32, self.lwheelCallback)
         rospy.Subscriber("right_encoder", Int32, self.rwheelCallback)
+        rospy.Subscriber("initialpose", PoseWithCovarianceStamped, self.update_pose)
         self.odomPub = rospy.Publisher("odom", Odometry,queue_size=10)
+        self.left_speed_pub = rospy.Publisher("left_speed", Float64,queue_size=10)
+        self.right_speed_pub = rospy.Publisher("right_speed", Float64,queue_size=10)
         self.odomBroadcaster = TransformBroadcaster()
-        
+
+
+    #############################################################################
+    def update_pose(self, data):
+    #############################################################################
+        (roll, pitch, yaw) = euler_from_quaternion([data.pose.pose.orientation.x, data.pose.pose.orientation.y, data.pose.pose.orientation.z, data.pose.pose.orientation.w])
+        self.x = data.pose.pose.position.x 
+        self.y = data.pose.pose.position.y
+        self.th = yaw
+
+
     #############################################################################
     def spin(self):
     #############################################################################
@@ -137,6 +154,17 @@ class DiffTf:
             else:
                 d_left = (self.left - self.enc_left) / self.ticks_meter
                 d_right = (self.right - self.enc_right) / self.ticks_meter
+
+            # calculate the velocity of the 2 wheels
+            self.left_speed = self.left / elapsed
+            self.right_speed = self.right / elapsed
+
+            # print(d_left)
+            # print(self.right_speed)
+
+            self.left_speed_pub.publish(float(d_left))
+            self.right_speed_pub.publish(float(d_right))
+
             self.enc_left = self.left
             self.enc_right = self.right
            

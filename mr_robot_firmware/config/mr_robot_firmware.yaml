@@ -11,7 +11,8 @@ mr_robot_firmware :
   rightA : 13
   rightB : 6
   rate : 50.0
-  ticks_meter : 13028
+  ticks_meter_right : 13028
+  ticks_meter_left : 13028
   base_width : 0.20
   base_frame_id : 'base_link'
   odom_frame_id : 'odom'

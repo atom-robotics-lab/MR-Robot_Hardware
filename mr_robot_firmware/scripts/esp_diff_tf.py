@@ -77,7 +77,8 @@ class DiffTf:
         
         #### parameters #######
         self.rate = rospy.get_param('mr_robot_firmware/rate')  # the rate at which to publish the transform
-        self.ticks_meter = float(rospy.get_param('mr_robot_firmware/ticks_meter'))  # The number of wheel encoder ticks per meter of travel
+        self.ticks_meter_right = float(rospy.get_param('mr_robot_firmware/ticks_meter_right'))  # The number of wheel encoder ticks per meter of travel
+        self.ticks_meter_left = float(rospy.get_param('mr_robot_firmware/ticks_meter_left'))  # The number of wheel encoder ticks per meter of travel
         self.base_width = float(rospy.get_param('mr_robot_firmware/base_width')) # The wheel base width in meters
         
         self.base_frame_id = rospy.get_param('mr_robot_firmware/base_frame_id') # the name of the base frame of the robot
@@ -152,8 +153,8 @@ class DiffTf:
                 d_left = 0
                 d_right = 0
             else:
-                d_left = (self.left - self.enc_left) / self.ticks_meter
-                d_right = (self.right - self.enc_right) / self.ticks_meter
+                d_left = (self.left - self.enc_left) / self.ticks_meter_left
+                d_right = (self.right - self.enc_right) / self.ticks_meter_right
 
             # calculate the velocity of the 2 wheels
             self.left_speed = self.left / elapsed

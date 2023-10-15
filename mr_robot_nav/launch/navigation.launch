@@ -1,0 +1,11 @@
+<launch>
+
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find mr_robot_nav)/maps/atom.yaml">
+		<param name="frame_id" value="map"/>
+	</node>
+	
+	<include file="$(find mr_robot_nav)/launch/amcl.launch" />
+	<include file="$(find mr_robot_nav)/launch/move_base.launch" />
+	
+</launch>
+

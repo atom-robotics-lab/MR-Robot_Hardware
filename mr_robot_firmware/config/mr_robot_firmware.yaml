@@ -10,7 +10,7 @@ mr_robot_firmware :
   leftB : 18
   rightA : 13
   rightB : 6
-  rate : 50.0
+  rate : 10.0
   ticks_meter_right : 13028
   ticks_meter_left : 13028
   base_width : 0.20

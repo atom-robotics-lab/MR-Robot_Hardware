@@ -8,7 +8,11 @@ Panels:
         - /Status1
         - /LaserScan1
         - /TF1
+        - /TF1/Frames1
         - /Map1
+        - /Path1
+        - /Map2
+        - /Map2/Status1
       Splitter Ratio: 0.5
     Tree Height: 665
   - Class: rviz/Selection
@@ -214,35 +218,37 @@ Visualization Manager:
       Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         LiPo_3S_v2_1:
-          Value: true
+          Value: false
         PCB_1_1:
-          Value: true
+          Value: false
         PCB__1:
-          Value: true
+          Value: false
         RPi4ModelB_1:
-          Value: true
+          Value: false
         V_Slot_1:
-          Value: true
+          Value: false
         base_link:
-          Value: true
+          Value: false
         black_wire_1:
-          Value: true
+          Value: false
         lidar_1:
+          Value: false
+        map:
           Value: true
         motor_driver_1:
-          Value: true
+          Value: false
         odom:
-          Value: true
+          Value: false
         red_wire_1:
-          Value: true
+          Value: false
         tyre_l_1:
           Value: true
         tyre_r_1:
           Value: true
         upper_panel_1:
-          Value: true
+          Value: false
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -250,32 +256,33 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_link:
-            LiPo_3S_v2_1:
-              {}
-            PCB_1_1:
-              {}
-            PCB__1:
-              {}
-            RPi4ModelB_1:
-              {}
-            V_Slot_1:
-              {}
-            black_wire_1:
-              {}
-            lidar_1:
-              {}
-            motor_driver_1:
-              {}
-            red_wire_1:
-              {}
-            tyre_l_1:
-              {}
-            tyre_r_1:
-              {}
-            upper_panel_1:
-              {}
+        map:
+          odom:
+            base_link:
+              LiPo_3S_v2_1:
+                {}
+              PCB_1_1:
+                {}
+              PCB__1:
+                {}
+              RPi4ModelB_1:
+                {}
+              V_Slot_1:
+                {}
+              black_wire_1:
+                {}
+              lidar_1:
+                {}
+              motor_driver_1:
+                {}
+              red_wire_1:
+                {}
+              tyre_l_1:
+                {}
+              tyre_r_1:
+                {}
+              upper_panel_1:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -285,6 +292,40 @@ Visualization Manager:
       Enabled: true
       Name: Map
       Topic: /map
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /move_base/NavfnROS/plan
+      Unreliable: false
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /move_base/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -316,7 +357,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.852778911590576
+      Distance: 5.875973701477051
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -324,15 +365,15 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.6905030608177185
-        Y: -0.05993644893169403
-        Z: -0.018826231360435486
+        X: 0.13600488007068634
+        Y: -0.14385223388671875
+        Z: 0.3596782386302948
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6097972989082336
+      Pitch: 1.3397969007492065
       Target Frame: <Fixed Frame>
       Yaw: 5.353590488433838
     Saved: ~
@@ -353,4 +394,4 @@ Window Geometry:
     collapsed: true
   Width: 930
   X: 970
-  Y: 64
+  Y: 44

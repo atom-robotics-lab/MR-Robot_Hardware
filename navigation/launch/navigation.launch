@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<launch>
+  <machine name="pi" address="192.168.0.100" password="raspberry" env-loader="/home/pi/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
+  <!-- Arguments -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="odom_to_map"
+  args="0 0 0 0 0 0  /map /odom 100" /> -->
+  <arg name="map_file" default="$(find navigation)/maps/atom.yaml"/>  
+  <arg name="move_forward_only" default="false"/>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+		<param name="frame_id" value="map"/>
+  </node>
+
+  <!-- AMCL -->
+  <include file="$(find navigation)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find navigation)/launch/move_base.launch">    
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+</launch>

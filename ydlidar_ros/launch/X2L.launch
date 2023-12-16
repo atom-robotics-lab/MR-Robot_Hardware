@@ -1,5 +1,5 @@
 <launch>
-  <machine name="pi" address="192.168.1.100" password="raspberry" env-loader="/home/pi/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
+  <machine name="pi" address="192.168.0.100" password="raspberry" env-loader="/home/pi/ros_workspaces/catkin_ws/devel/env.sh" user="pi"/>
 
   <node machine="pi" name="ydlidar_node"  pkg="ydlidar_ros"  type="ydlidar_node" output="screen" respawn="false" >
     <param name="port"         type="string" value="/dev/ttyUSB_LIDAR"/>  

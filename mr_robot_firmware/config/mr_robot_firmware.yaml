@@ -2,10 +2,10 @@ mr_robot_firmware :
   motor_rpm : 100  
   wheel_diameter : 0.113
   wheel_separation : 0.24
-  max_pwm_val : 150
+  max_pwm_val : 120
   min_pwm_val : 50
-  twist_max_pwm : 150
-  twist_min_pwm : -150
+  twist_max_pwm : 120
+  twist_min_pwm : -120
   leftA : 12
   leftB : 18
   rightA : 13

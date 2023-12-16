@@ -79,15 +79,15 @@ class DifferentialDriver :
         print(" Left Velocity = {}  |   Right Velocity = {}  |   Left Actual = {}    |   Right Actual = {}".format(left_vel, right_vel, self.left_vel_actual, self.right_vel_actual))
         
         left_pwm_data , right_pwm_data = self.get_pwm(left_vel, right_vel)
-        try:
-            left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
-        except:
-            pass
+        #try:
+            #left_pwm_data , right_pwm_data = self.correct_pwm(left_vel, right_vel, left_pwm_data , right_pwm_data)
+        #except:
+        #    pass
         #print(left_pwm_data) 
         #print(right_pwm_data) 
 
 
-        self.left_pwm.data = int(left_pwm_data)
+        self.left_pwm.data = int(left_pwm_data) + 10
         self.right_pwm.data = int(right_pwm_data)
 
 

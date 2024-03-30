@@ -1,15 +1,23 @@
 
 #include <ros.h>
 #include <std_msgs/Int32.h>
+#include <geometry_msgs/Twist.h>
+#include <Adafruit_NeoPixel.h>
 #define SAMPLE_DELAY (1000)   //  this gets 1 reading per second.
                               //  adjust the delay to fit your needs
 #define PULSES_PER_TURN (32)  //  32 state changes per turn on 1 line, 
+#define PIN_WS2812B 33  // The ESP32 pin GPIO16 connected to WS2812B
+#define NUM_PIXELS 32   // The number of LEDs (pixels) on WS2812B LED strip
+#define SAMPLE_DELAY (1000)   //  this gets 1 reading per second.
+                              //  adjust the delay to fit your needs
+Adafruit_NeoPixel ws2812b(NUM_PIXELS, PIN_WS2812B, NEO_GRB + NEO_KHZ800);
 unsigned int pulseCountL;
 bool lastStateL;
 unsigned int lastTimeL; 
 float rpmL;
 float rpmL_error;  
 float rpmR_error;  
+int c=0;
 
 unsigned int pulseCountR;
 bool lastStateR;
@@ -30,8 +38,7 @@ std_msgs::Int32 pwm_right;
 const int freq = 5000;
 const int ledChannel1 = 0;
 const int ledChannel2 = 1;
-const int ledChannel3 = 2;
-const int ledChannel4 = 3;
+
 const int resolution = 8;
 
 
@@ -41,46 +48,25 @@ ros::Publisher left_enc_error("left_encoder_error", &encoder_msg_left_error);
 ros::Publisher right_enc_error("right_encoder_error", &encoder_msg_right_error);
 
 
+
+
+
 //pins are changed as per esp32
-int encoderLPin1 = 13;
-int encoderLPin2 = 12;
-int encoderRPin1 = 2;
-int encoderRPin2 = 4;
+int encoderLPin1 = 14;
+int encoderLPin2 = 26;
+int encoderRPin1 = 35;
+int encoderRPin2 = 34;
 
-int LForward = 22;
-int LBackward = 23;
-int LPWM = 26;
+int LForward = 0;
+int LBackward = 13;
+int LPWM = 15;
 
-int RForward = 21;
-int RBackward = 19;
-int RPWM = 5;
+int RForward = 17;
+int RBackward = 5;
+int RPWM = 19;
 
-int standby = 25;
+int standby = 4;
 
-
-//*****************************************************************
-
-
-// FastLED "100-lines-of-code" demo reel, showing just a few 
-// of the kinds of animation patterns you can quickly and easily 
-// compose using FastLED.  
-//
-// This example also shows one easy way to define multiple 
-// animations patterns and have them automatically rotate.
-//
-// -Mark Kriegsman, December 2014
-
-
-#define DATA_PIN    23
-//#define CLK_PIN   4
-#define LED_TYPE    WS2811
-#define COLOR_ORDER GRB
-#define NUM_LEDS    6
-
-#define BRIGHTNESS          255
-#define FRAMES_PER_SECOND  120
-
-//*******************************************************************
 
 volatile int lastEncoded_L = 0;
 volatile long encoderValue_L = 0;
@@ -92,16 +78,57 @@ void updateEncoder_L();
 
 void LpwmCb(const std_msgs::Int32& pwm){
 
-  if(pwm.data == 0) { ledcWrite(ledChannel1, 0); ledcWrite(ledChannel2, 0); }
-  if(pwm.data > 0)  { ledcWrite(ledChannel1, abs(pwm.data)); ledcWrite(ledChannel2, 0); }
-  if(pwm.data < 0)  { ledcWrite(ledChannel1, 0); ledcWrite(ledChannel2, abs(pwm.data));}
+  if(pwm.data == 0) { digitalWrite(LForward, 0); digitalWrite(LBackward, 0); ledcWrite(ledChannel1, 0);
+  ws2812b.setPixelColor(c%32, ws2812b.Color(255, 0, 0));  // it only takes effect if pixels.show() is called
+  ws2812b.show();  // update to the WS2812B Led Strip
+
+  }
+  if(-pwm.data > 0)  { digitalWrite(LForward, 1); digitalWrite(LBackward, 0); ledcWrite(ledChannel1, abs(pwm.data));
+  ws2812b.setPixelColor(c%32, ws2812b.Color(0, 0, 255));  // it only takes effect if pixels.show() is called
+    ws2812b.show();  // update to the WS2812B Led Strip
+
+  }
+  if(-pwm.data < 0)  { digitalWrite(LForward, 0); digitalWrite(LBackward, 1); ledcWrite(ledChannel1, abs(pwm.data));
+  ws2812b.setPixelColor(c%32, ws2812b.Color(0, 0, 255));  // it only takes effect if pixels.show() is called
+  ws2812b.show();  // update to the WS2812B Led Strip
+  }
+
+  c++;
+  if (c%32!= 0 and abs(pwm.data) !=0){
+        ws2812b.show();
+    }
+  if (c%32== 0 and pwm.data==0 ){
+    ws2812b.show();
+    // update to the WS2812B Led Strip
+  }
+
 }
 
+
 void RpwmCb(const std_msgs::Int32& pwm){
-  if(pwm.data == 0) { ledcWrite(ledChannel3, 0); ledcWrite(ledChannel4, 0); }
-  if(pwm.data > 0)  { ledcWrite(ledChannel3, abs(pwm.data)); ledcWrite(ledChannel4, 0); }
-  if(pwm.data < 0)  { ledcWrite(ledChannel3, 0); ledcWrite(ledChannel4, abs(pwm.data));}
+  
+  if(pwm.data == 0) { digitalWrite(RForward, 0); digitalWrite(RBackward, 0); ledcWrite(ledChannel2, 0);
+  ws2812b.setPixelColor(c%32, ws2812b.Color(255, 0, 0));  // it only takes effect if pixels.show() is called
+  ws2812b.show();  // update to the WS2812B Led Strip
 }
+  if(-pwm.data > 0)  { digitalWrite(RForward, 1); digitalWrite(RBackward, 0); ledcWrite(ledChannel2, abs(pwm.data));
+  ws2812b.setPixelColor(c%32, ws2812b.Color(0, 0, 255));  // it only takes effect if pixels.show() is called
+  ws2812b.show();  // update to the WS2812B Led Strip
+  }
+  if(-pwm.data < 0)  { digitalWrite(RForward, 0); digitalWrite(RBackward, 1); ledcWrite(ledChannel2, abs(pwm.data));
+  ws2812b.setPixelColor(c%32, ws2812b.Color(0, 0, 255));  // it only takes effect if pixels.show() is called
+  ws2812b.show();  // update to the WS2812B Led Strip
+  }
+  c++;
+  if (c%32!= 0 and abs(pwm.data) !=0){
+        ws2812b.show();
+    }
+  if (c%32== 0 and pwm.data==0 ){
+    ws2812b.show();
+    // update to the WS2812B Led Strip
+  }
+}
+  
 
 ros::Subscriber<std_msgs::Int32> Lpwm_sub("left_pwm", &LpwmCb );
 ros::Subscriber<std_msgs::Int32> Rpwm_sub("right_pwm", &RpwmCb );
@@ -118,26 +145,31 @@ void setup() {
 
   nh.subscribe(Lpwm_sub);
   nh.subscribe(Rpwm_sub);
+  ws2812b.begin();
 
   ledcSetup(ledChannel1, freq, resolution);
   ledcSetup(ledChannel2, freq, resolution);
-  ledcSetup(ledChannel3, freq, resolution);
-  ledcSetup(ledChannel4, freq, resolution);
+
 
   //Serial.begin (57600);
-
+  pinMode(PIN_WS2812B, OUTPUT);
   pinMode(encoderLPin1, INPUT_PULLUP); 
   pinMode(encoderLPin2, INPUT_PULLUP);
   pinMode(encoderRPin1, INPUT_PULLUP); 
   pinMode(encoderRPin2, INPUT_PULLUP);
 
+  pinMode(LPWM, OUTPUT);
+  pinMode(RPWM, OUTPUT);
+  pinMode(RForward, OUTPUT);
+  pinMode(RBackward, OUTPUT);
+  pinMode(LForward, OUTPUT);
+  pinMode(LBackward, OUTPUT);
   pinMode(standby, OUTPUT);
+
   digitalWrite(standby, HIGH);
 
-  ledcAttachPin(LForward,      ledChannel1);
-  ledcAttachPin(LBackward,     ledChannel2);
-  ledcAttachPin(RForward,      ledChannel3);
-  ledcAttachPin(RBackward,     ledChannel4);
+  ledcAttachPin(LPWM,   ledChannel1);
+  ledcAttachPin(RPWM,   ledChannel2);
 
   lastStateL = digitalRead(encoderLPin1);
   lastStateR = digitalRead(encoderRPin1);
@@ -171,48 +203,10 @@ void publish_encoder_data()
 
 void loop(){  
 
-  /*Serial.print(encoderValue_L);
-
-  Serial.print("     ");
-  
-  Serial.println(encoderValue_R);*/
-  bool curStateL = digitalRead(encoderLPin1);
-  bool curStateR = digitalRead(encoderRPin1);
-
-    if (curStateL != lastStateL)
-    {
-        ++pulseCountL;
-        lastStateL = curStateL;
-    }
-    if (curStateR != lastStateR)
-    {
-        ++pulseCountR;
-        lastStateR = curStateR;
-    }
-
-    if ((unsigned int)millis() - lastTimeL >= SAMPLE_DELAY)  
-    {
-         rpmL = (pulseCountL * (60000.f / ((unsigned int)millis() - lastTimeL))) / PULSES_PER_TURN;
-         pulseCountL = 0;
-         lastTimeL = (unsigned int)millis();
-    }
-        if ((unsigned int)millis() - lastTimeR >= SAMPLE_DELAY)  
-    {
-         rpmR = (pulseCountR * (60000.f / ((unsigned int)millis() - lastTimeR))) / PULSES_PER_TURN;
-         pulseCountR = 0;
-         lastTimeR = (unsigned int)millis();
-    }
-
-
-
-    rpmL_error=100-rpmL;
-    rpmR_error=100-rpmR;
-
   publish_encoder_data();
 
   nh.spinOnce();
 
- 
   }
 
 

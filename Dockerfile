@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-catkin \
     ros-noetic-roslaunch \
     ros-noetic-ros-base \
+    ros-noetic-teleop-twist-keyboard \
+    ros-noetic-rosserial-arduino \
+    ros-noetic-xacro  \
     git 
     
 
@@ -28,7 +31,7 @@ RUN source /opt/ros/noetic/setup.bash && rosdep install --from-paths src --ignor
 
 RUN source /opt/ros/noetic/setup.bash && catkin_make
 
-RUN echo source /root/MR_ROBOT_HARDWARE/devel/setup.bash >> /root/.bashrc
+RUN echo "source /root/MR_ROBOT_HARDWARE/devel/setup.bash" >> /root/.bashrc
 
 
 

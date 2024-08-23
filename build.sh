@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t ros-noetic-env:1.0 .
+docker build -t ros-noetic-env:1.1 .

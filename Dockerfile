@@ -16,7 +16,10 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-teleop-twist-keyboard \
     ros-noetic-rosserial-arduino \
     ros-noetic-xacro  \
-    git 
+    git \
+    ros-noetic-rviz \
+    ros-noetic-robot-state-publisher \
+    ros-noetic-joint-state-publisher
     
 
 RUN rosdep init && rosdep update
